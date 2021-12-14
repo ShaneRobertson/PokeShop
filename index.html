@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fetcher</title>
+    <link rel="stylesheet" href="style.css" />
+    <script defer src="index.js"></script>
+  </head>
+  <body>
+    <h1>Pokemon Finder</h1>
+    <form action="#">
+      <input type="text" id="search" placeholder="Find a pokemon" />
+      <button type="submit" id="fetchBtn">fetch</button>
+    </form>
+
+    <div id="modal-background">
+      <div id="modal-container">
+        <div id="modal-image-container"></div>
+        <div id="modal-stats-container"></div>
+        <button id="modal-close">close</button>
+      </div>
+    </div>
+
+    <div id="paginate">
+      <button id="previous" disabled="true">prev</button>
+      <button id="next">next</button>
+    </div>
+    <div id="outputArea"></div>
+  </body>
+</html>
