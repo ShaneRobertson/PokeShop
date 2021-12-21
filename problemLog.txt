@@ -1,2 +1,0 @@
-In order to ensure the modal pops up when the container or the img is clicked on, I placed the event listener on the outputArea container. Then check to see if 
-the element that triggered the event has a custom data attribute set to the pokemons name - event bubbling
