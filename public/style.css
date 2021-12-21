@@ -14,11 +14,13 @@ body {
 
 h1 {
   width: 20rem;
+  text-align: center;
   margin: 0 auto;
 }
 
 form {
   width: 20rem;
+  text-align: center;
   margin: 1rem auto;
 }
 
@@ -234,4 +236,18 @@ h3 span {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+/* --Responsive at 320px */
+@media screen and (max-width: 320px) {
+  /* h1 {
+    width: 100%;
+    text-align: center;
+  }
+  form {
+    text-align: center;
+  }
+
+  .paginate {
+  } */
 }
