@@ -147,9 +147,9 @@ span + img:hover {
   position: fixed;
   top: 0;
   left: 0;
-  overflow: auto;
-  width: 100%;
-  height: 100%;
+  /* overflow: auto; */
+  width: 100vw;
+  height: 100vh;
   z-index: 1;
   background-color: rgb(0, 0, 0);
   background-color: rgb(0, 0, 0, 0.85);
@@ -161,7 +161,8 @@ span + img:hover {
   grid-template-rows: auto;
   align-items: center;
   justify-items: center;
-  margin: 15% auto;
+  margin: 0 auto;
+  transform: translateY(25%);
   width: 60%;
   height: 60%;
   /* border: 3px solid lime; */
@@ -191,16 +192,18 @@ span + img:hover {
   height: 90%;
   width: 90%;
   /* overflow: auto; */
+  border: 3px inset var(--poke-container);
   padding: 1rem;
   border-radius: 1rem;
 }
 
 #modal-stats-description {
-  height: 15rem;
+  height: 60%;
   margin: 1rem auto;
   overflow: auto;
   background-color: var(--poke-container);
   border-radius: 1rem;
+  border: 3px inset wheat;
   padding: 1rem;
 }
 
@@ -208,4 +211,27 @@ h3 span {
   position: absolute;
   top: 0;
   right: 0;
+}
+
+/* --Scroll bar-- */
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  height: 50%;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: gray;
+  border-radius: 4px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
