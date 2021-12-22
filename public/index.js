@@ -114,7 +114,7 @@ next.addEventListener("click", async () => {
 previous.addEventListener("click", async () => {
   try {
     if (pagination < 11) {
-      prevBtn.setAttribute("disabled", true);
+      previous.setAttribute("disabled", true);
     }
     display.innerHTML = "";
     pagination -= 10;

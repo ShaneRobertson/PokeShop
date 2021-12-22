@@ -34,8 +34,8 @@ form {
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  width: 90vw;
-  height: 80vh;
+  width: 90%;
+  height: 80%;
   margin: 1rem auto;
   background-color: rgb(179, 227, 241);
 }
@@ -202,6 +202,8 @@ span + img:hover {
 #modal-stats-description {
   height: 60%;
   margin: 1rem auto;
+  font-weight: bold;
+  font-size: 1.1rem;
   overflow: auto;
   background-color: var(--poke-container);
   border-radius: 1rem;
@@ -218,13 +220,14 @@ h3 span {
 /* --Scroll bar-- */
 /* width */
 ::-webkit-scrollbar {
-  width: 5px;
+  width: 8px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
   background: #f1f1f1;
-  height: 50%;
+  height: 10rem;
+  border-radius: 4px;
 }
 
 /* Handle */
@@ -239,15 +242,10 @@ h3 span {
 }
 
 /* --Responsive at 320px */
-@media screen and (max-width: 320px) {
-  /* h1 {
-    width: 100%;
-    text-align: center;
+@media screen and (max-width: 1024px) {
+  #modal-container {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
   }
-  form {
-    text-align: center;
-  }
-
-  .paginate {
-  } */
 }
