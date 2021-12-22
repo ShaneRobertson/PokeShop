@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "client:dev": "node index.js"
+    "client:dev": "node index.js",
+    "server:dev": "nodemon index.js"
   },
   "proxy": "http://localhost:5000",
   "repository": {
