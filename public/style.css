@@ -249,3 +249,11 @@ h3 span {
     overflow: auto;
   }
 }
+
+/* --Login-- */
+
+#login {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}

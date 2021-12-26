@@ -1,4 +1,4 @@
 In order to ensure the modal pops up when the container or the img is clicked on, I placed the event listener on the outputArea container. Then check to see if 
 the element that triggered the event has a custom data attribute set to the pokemons name - event bubbling
 
-Need to figure out Express..Got the server listening, but not sure at the moment how to render to the page
+The order of middleware matters!
