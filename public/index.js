@@ -25,7 +25,7 @@ const descriptionFilter = (arr) => {
   let englishOnlyDescription = arr.filter((desc) => {
     return desc.language.name == "en";
   });
-  console.log(englishOnlyDescription);
+  //console.log(englishOnlyDescription);
   let pokeDescription = "";
   let counter = 0;
   englishOnlyDescription.forEach((description) => {
@@ -54,7 +54,7 @@ const loadInitialPokemon = async () => {
     results.forEach(async (result) => {
       let res = await fetch(`https://pokeapi.co/api/v2/pokemon/${result.name}`);
       const poke = await res.json();
-      console.log("pokemon: ", poke);
+      //  console.log("pokemon: ", poke);
       output += `<div id='pokeContainer' data-pokemon=${result.name}> <span data-pokemon=${result.name}>${result.name}</span>
       <img src=${poke.sprites.versions["generation-v"]["black-white"].animated.front_default} alt=${poke.name} data-pokemon=${result.name}></img>
   </div>`;
