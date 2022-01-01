@@ -2,3 +2,8 @@ In order to ensure the modal pops up when the container or the img is clicked on
 the element that triggered the event has a custom data attribute set to the pokemons name - event bubbling
 
 The order of middleware matters!
+
+Declared USERNAME in .env as my postgres username  variable, but my declaration kept getting overridden.
+USERNAME is a key on the process.env object. Changed the variable name from USERNAME => KEY and now the KEY variable can be deconstructed
+from the process.env file and I can connect to the pg client.
+    
