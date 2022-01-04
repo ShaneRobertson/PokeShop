@@ -7,3 +7,4 @@ Declared USERNAME in .env as my postgres username  variable, but my declaration 
 USERNAME is a key on the process.env object. Changed the variable name from USERNAME => KEY and now the KEY variable can be deconstructed
 from the process.env file and I can connect to the pg client.
     
+"require" does not exist in browser/client-side JavaScript. Will have to switch everything over to es6 modules.

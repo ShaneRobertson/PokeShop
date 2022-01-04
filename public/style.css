@@ -206,7 +206,10 @@ span + img:hover {
   font-size: 1.1rem;
   overflow: auto;
   background-color: var(--poke-container);
-  border-radius: 1rem;
+  border-top-left-radius: 1rem;
+  border-bottom-left-radius: 1rem;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
   border: 3px inset wheat;
   padding: 1rem;
 }
@@ -229,8 +232,8 @@ h3 span {
 /* Track */
 ::-webkit-scrollbar-track {
   background: #f1f1f1;
-  height: 80%;
-  border-radius: 4px;
+
+  border-radius: 2px;
 }
 
 /* Handle */
