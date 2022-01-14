@@ -2,7 +2,7 @@ const express = require("express");
 const server = express();
 const apiRouter = require("./routes");
 const morgan = require("morgan");
-const client = require("./db/index.js");
+const { client } = require("./db/index.js");
 
 server.use(morgan("dev"));
 server.use(express.json());

@@ -1,10 +1,13 @@
-In order to ensure the modal pops up when the container or the img is clicked on, I placed the event listener on the outputArea container. Then check to see if 
-the element that triggered the event has a custom data attribute set to the pokemons name - event bubbling
+In order to ensure the modal pops up when the container or the img is clicked on, I placed the event listener on the outputArea container. Then check to see if the element that triggered the event has a custom data attribute set to the pokemons name - event bubbling
 
 The order of middleware matters!
 
 Declared USERNAME in .env as my postgres username  variable, but my declaration kept getting overridden.
-USERNAME is a key on the process.env object. Changed the variable name from USERNAME => KEY and now the KEY variable can be deconstructed
-from the process.env file and I can connect to the pg client.
+    USERNAME is a key on the process.env object. Changed the variable name from USERNAME => KEY and now the KEY variable can be deconstructed
+    from the process.env file and I can connect to the pg client.
     
-"require" does not exist in browser/client-side JavaScript. Will have to switch everything over to es6 modules.
+"require" does not exist in browser/client-side JavaScript. So was not able to require api functions
+    Create the api functions directly in the script instead of having them in one file..not ideal, but good for now
+
+Was getting a "readable stream" and/or pending promise in the front end. 
+    Fetch is asynchronus. Had to 'async' the function, await the fetch and the response.json().
