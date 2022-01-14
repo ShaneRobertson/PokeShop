@@ -1,6 +1,7 @@
 // all the functions for http request go here using axios, then they get exported
-const axios = require("axios");
-async function userLogin(name, pass) {
+//const axios = require("axios");
+import axios from "axios";
+export async function userLogin(name, pass) {
   try {
     if (name && pass) {
       let userObj = { name, pass };
@@ -11,7 +12,3 @@ async function userLogin(name, pass) {
     throw err;
   }
 }
-
-module.exports = {
-  userLogin,
-};
