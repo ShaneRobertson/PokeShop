@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pokemon Finder</title>
     <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
     <script defer src="./index.js"></script>
   </head>
   <body>
@@ -15,21 +19,60 @@
         <input type="text" id="search" placeholder="Find a pokemon" />
         <button type="submit" id="fetchBtn">fetch</button>
       </form>
-      <span><a href="./components/login/login.html" id="login">login</a></span>
+      <button id="login-modal-btn">sign in</button>
     </header>
-
-    <div id="modal-background">
-      <div id="modal-container">
-        <div id="modal-image-container"></div>
-        <div id="modal-stats-container"></div>
-        <button id="modal-close">close</button>
+    <main>
+      <div id="modal-background">
+        <div id="modal-container">
+          <div id="modal-image-container"></div>
+          <div id="modal-stats-container"></div>
+          <button id="modal-close">close</button>
+        </div>
       </div>
-    </div>
+      <div id="login-modal-background">
+        <div id="login-modal-container">
+          <button id="login-modal-close">Close</button>
+          <div id="signIn-container">
+            <h3>Sign In</h3>
+            <form>
+              <i class="fa fa-user"></i>
+              <input
+                type="text"
+                id="signIn-username"
+                placeholder="username"
+              /><br />
+              <i class="fa fa-lock"></i>
+              <input type="text" id="signIn-password" placeholder="password" />
+              <button type="submit" id="login-btn">Sign In</button>
+            </form>
+          </div>
+          <br />
+          <div id="register-container">
+            <h3>Register</h3>
+            <form>
+              <i class="fa fa-user"></i>
+              <input
+                type="text"
+                id="register-username"
+                placeholder="username"
+              /><br />
+              <i class="fa fa-lock"></i>
+              <input
+                type="text"
+                id="register-password"
+                placeholder="password"
+              />
+              <button type="submit" id="login-btn">login</button>
+            </form>
+          </div>
+        </div>
+      </div>
 
-    <div id="paginate">
-      <button id="previous" disabled="true">prev</button>
-      <button id="next">next</button>
-    </div>
-    <div id="outputArea"></div>
+      <div id="paginate">
+        <button id="previous" disabled="true">prev</button>
+        <button id="next">next</button>
+      </div>
+      <div id="outputArea"></div>
+    </main>
   </body>
 </html>
