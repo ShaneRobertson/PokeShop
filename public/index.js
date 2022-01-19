@@ -10,30 +10,6 @@ const modalStats = document.getElementById("modal-stats-container");
 const modalClose = document.getElementById("modal-close");
 const modalImage = document.getElementById("modal-image-container");
 const searchStr = document.getElementById("search");
-const usernameEl = document.getElementById("signIn-username");
-const passwordEl = document.getElementById("signIn-password");
-const openLoginModal = document.getElementById("login-modal-btn");
-const loginModalBackground = document.getElementById("login-modal-background");
-const loginBtn = document.getElementById("login-btn");
-const closeLoginModal = document.getElementById("login-modal-close");
-
-const loginUser = async (username, pass) => {
-  let userObj = { username, pass };
-  try {
-    const response = await fetch("/users/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userObj),
-    });
-    const result = await response.json();
-    return result;
-  } catch (err) {
-    console.log("asdfasdfas");
-    console.log(err);
-  }
-};
 
 const fetchPokemon = async (name) => {
   try {
@@ -204,27 +180,6 @@ display.addEventListener("click", async (e) => {
 
 modalClose.addEventListener("click", async () => {
   modalBackground.style.display = "none";
-});
-
-loginBtn.addEventListener("click", async (e) => {
-  e.preventDefault();
-  const username = usernameEl.value;
-  const password = passwordEl.value;
-
-  const returnedVal = await loginUser(username, password);
-  console.log("returned Value in front end: ", returnedVal);
-
-  usernameEl.value = "";
-  passwordEl.value = "";
-});
-
-openLoginModal.addEventListener("click", () => {
-  console.log("dasdfadf");
-  loginModalBackground.style.display = "block";
-});
-
-closeLoginModal.addEventListener("click", () => {
-  loginModalBackground.style.display = "none";
 });
 
 loadInitialPokemon();
