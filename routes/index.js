@@ -11,11 +11,15 @@ apiRouter.post("/login", async (req, res, next) => {
   const { username, pass } = req.body;
 
   let userObj = { username, pass };
-  const loggedInUser = await getUser(userObj);
 
-  if (loggedInUser) {
-    console.log("about to JWT this guy", loggedInUser);
-  }
+//   const loggedInUser = await getUser(userObj);
+
+//   if (loggedInUser) {
+//     console.log("about to JWT this guy", loggedInUser);
+//   }
+
+  const result = await getUser(userObj);
+
   console.log("result is: ", result);
   res.json(result);
 });
