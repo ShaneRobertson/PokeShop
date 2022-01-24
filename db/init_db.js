@@ -1,4 +1,4 @@
-const client = require("./index");
+const { client } = require("./index");
 
 //This file is used to seed the database
 
