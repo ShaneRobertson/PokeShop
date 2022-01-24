@@ -10,6 +10,30 @@ const modalStats = document.getElementById("modal-stats-container");
 const modalClose = document.getElementById("modal-close");
 const modalImage = document.getElementById("modal-image-container");
 const searchStr = document.getElementById("search");
+const openLoginModal = document.getElementById("login");
+const closeLoginModal = document.getElementById("close-login-modal");
+const loginModalBackground = document.getElementById("login-modal-background");
+const signInButton = document.getElementById("signIn-modal-button");
+const signInUsername = document.getElementById("signIn-username");
+const signInPassword = document.getElementById("signIn-password");
+
+const loginUser = async (username, pass) => {
+  let userObj = { username, pass };
+  try {
+    const response = await fetch("/users/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userObj),
+    });
+    const result = await response.json();
+    return result;
+  } catch (err) {
+    console.log("asdfasdfas");
+    console.log(err);
+  }
+};
 
 const fetchPokemon = async (name) => {
   try {
@@ -157,12 +181,7 @@ display.addEventListener("click", async (e) => {
         `https://pokeapi.co/api/v2/pokemon-species/${id}/`
       );
       const { flavor_text_entries } = await data.json();
-      // const descData = await fetch(
-      //   `https://pokeapi.co/api/v2/characteristic/${id}/`
-      // );
-      // const result = await descData.json();
-      // console.log("result is: ", result);
-      // console.log(flavor_text_entries);
+
       let pokeDescription = descriptionFilter(flavor_text_entries);
       // console.log("✈️", pokeDescription);
       pokeImage += `<img src=${response.sprites.other["dream_world"]["front_default"]} alt=${pokemon} id='modal-poke-image' />`;
@@ -180,6 +199,26 @@ display.addEventListener("click", async (e) => {
 
 modalClose.addEventListener("click", async () => {
   modalBackground.style.display = "none";
+});
+
+openLoginModal.addEventListener("click", () => {
+  loginModalBackground.style.display = "block";
+});
+
+closeLoginModal.addEventListener("click", () => {
+  loginModalBackground.style.display = "none";
+});
+
+signInButton.addEventListener("click", async (e) => {
+  e.preventDefault();
+  const username = signInUsername.value;
+  const password = signInPassword.value;
+
+  const returnedVal = await loginUser(username, password);
+  console.log("returned Value in front end: ", returnedVal);
+
+  signInPassword.value = "";
+  signInUsername.value = "";
 });
 
 loadInitialPokemon();
