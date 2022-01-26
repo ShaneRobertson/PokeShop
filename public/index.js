@@ -214,11 +214,12 @@ signInButton.addEventListener("click", async (e) => {
   const username = signInUsername.value;
   const password = signInPassword.value;
 
-  const returnedVal = await loginUser(username, password);
-  console.log("returned Value in front end: ", returnedVal);
+  const { token } = await loginUser(username, password);
+  console.log("returned Value in front end: ", token);
 
   signInPassword.value = "";
   signInUsername.value = "";
+  localStorage.setItem("token", JSON.stringify(token));
 });
 
 loadInitialPokemon();
