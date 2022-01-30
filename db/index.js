@@ -6,9 +6,7 @@ const DB_NAME = `${KEY}:${PASSWORD}@localhost:5432/pokedb`;
 const DB_URL = process.env.DATABASE_URL || `postgressql://${DB_NAME}`;
 const client = new Client(DB_URL);
 
-async function getUser(userObject) {
-  const { username, pass } = userObject;
-
+async function getUser(username) {
   try {
     const { rows } = await client.query(
       `
