@@ -17,24 +17,6 @@ const signInButton = document.getElementById("signIn-modal-button");
 const signInUsername = document.getElementById("signIn-username");
 const signInPassword = document.getElementById("signIn-password");
 
-const loginUser = async (username, pass) => {
-  let userObj = { username, pass };
-  try {
-    const response = await fetch("/users/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userObj),
-    });
-    const result = await response.json();
-    return result;
-  } catch (err) {
-    console.log("asdfasdfas");
-    console.log(err);
-  }
-};
-
 const fetchPokemon = async (name) => {
   try {
     const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
@@ -209,17 +191,43 @@ closeLoginModal.addEventListener("click", () => {
   loginModalBackground.style.display = "none";
 });
 
+const loginUser = async (username, userPassword) => {
+  let userObj = { username, userPassword };
+  try {
+    const response = await fetch("/users/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userObj),
+    });
+    const result = await response.json();
+    return result;
+  } catch (err) {
+    console.log("asdfasdfas");
+    console.log(err);
+  }
+};
+
 signInButton.addEventListener("click", async (e) => {
   e.preventDefault();
   const username = signInUsername.value;
   const password = signInPassword.value;
 
-  const { token } = await loginUser(username, password);
-  console.log("returned Value in front end: ", token);
+  const { token, err, message } = await loginUser(username, password);
+  console.log("token: ", token, "err: ", err, "message: ", message);
+
+  if (token) {
+    localStorage.setItem("token", JSON.stringify(token));
+  }
+  if (message) {
+    let errorMessageEl = document.createElement("span");
+    errorMessageEl.innerText(message);
+    document.getElementById();
+  }
 
   signInPassword.value = "";
   signInUsername.value = "";
-  localStorage.setItem("token", JSON.stringify(token));
 });
 
 loadInitialPokemon();

@@ -9,35 +9,31 @@ apiRouter.get("/", (req, res, next) => {
 });
 
 apiRouter.post("/login", async (req, res, next) => {
-  const { username, pass } = req.body;
+  const { username, userPassword } = req.body;
 
-  let userObj = { username, pass };
-
-  const loggedInUser = await getUser(userObj);
-
-  // if (loggedInUser) {
-  //   console.log("about to JWT this guy", loggedInUser);
-  //   jwt.sign(loggedInUser, process.env.jwtSecret, (err, token) => {
-  //     console.log("token is:", token);
-  //     console.log(process.env.jwtSecret);
-  //   });
-  //   res.json(token);
-  // }
-  if (loggedInUser) {
-    // encrypts user object, needs encrypting method
-    // callback to handle error or send token in json
-    jwt.sign({ loggedInUser }, process.env.jwtSecret, (err, token) => {
-      if (err) {
-        res.send({ error: err, status: 403 });
+  try {
+    const loggedInUser = await getUser(username);
+    if (loggedInUser.length > 0) {
+      const [{ password: dbPassword }] = loggedInUser;
+      if (dbPassword == userPassword) {
+        console.log("Matched!");
+        //maybe loop over the loggedInUser and take out the password
+        jwt.sign({ loggedInUser }, process.env.jwtSecret, (err, token) => {
+          console.log("err is:", err);
+          if (err) {
+            res.send({ error: err, status: 403 });
+          } else {
+            res.json({ loggedInUser, token });
+          }
+        });
       } else {
-        res.json({ loggedInUser, token });
+        res.send({ message: "Username or password do not match." });
       }
-    });
-  } else {
-    res.send({ message: "Username or password do not match." });
+    } else {
+      res.send({ message: "Username or password do not match." });
+    }
+  } catch (err) {
+    console.log("error in routes: ", err);
   }
-
-  // console.log("result is: ", result);
-  // res.json(result);
 });
 module.exports = apiRouter;
