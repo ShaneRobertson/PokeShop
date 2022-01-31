@@ -305,3 +305,15 @@ h3 span {
   top: 1rem;
   right: 1rem;
 }
+
+/* --Sign in-- */
+#signIn-modal-errors {
+  display: block;
+  color: red;
+  text-align: center;
+  font-weight: bolder;
+}
+
+.display-signIn-errors {
+  display: none;
+}
