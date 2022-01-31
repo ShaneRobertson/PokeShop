@@ -1,4 +1,5 @@
 "use strict";
+
 let pagination = 0;
 const previous = document.getElementById("previous");
 const next = document.getElementById("next");
@@ -16,6 +17,8 @@ const loginModalBackground = document.getElementById("login-modal-background");
 const signInButton = document.getElementById("signIn-modal-button");
 const signInUsername = document.getElementById("signIn-username");
 const signInPassword = document.getElementById("signIn-password");
+const errorMessageEl = document.getElementById("signIn-modal-errors");
+//change the html to use id instead of class
 
 const fetchPokemon = async (name) => {
   try {
@@ -221,13 +224,19 @@ signInButton.addEventListener("click", async (e) => {
     localStorage.setItem("token", JSON.stringify(token));
   }
   if (message) {
-    let errorMessageEl = document.createElement("span");
-    errorMessageEl.innerText(message);
-    document.getElementById();
+    errorMessageEl.innerText = message;
+    document
+      .getElementById("signIn-modal-container")
+      .appendChild(errorMessageEl);
   }
 
   signInPassword.value = "";
   signInUsername.value = "";
 });
 
+signInUsername.addEventListener("input", () => {
+  if (errorMessageEl.innerText.length > 0) {
+    errorMessageEl.innerText = "";
+  }
+});
 loadInitialPokemon();

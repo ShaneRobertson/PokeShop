@@ -16,10 +16,14 @@ apiRouter.post("/login", async (req, res, next) => {
     if (loggedInUser.length > 0) {
       const [{ password: dbPassword }] = loggedInUser;
       if (dbPassword == userPassword) {
-        console.log("Matched!");
-        //maybe loop over the loggedInUser and take out the password
+        const [theUser] = loggedInUser;
+        let returnedUser = {};
+        for (const key in theUser) {
+          if (key != "password") {
+            returnedUser[key] = theUser[key];
+          }
+        }
         jwt.sign({ loggedInUser }, process.env.jwtSecret, (err, token) => {
-          console.log("err is:", err);
           if (err) {
             res.send({ error: err, status: 403 });
           } else {
@@ -27,10 +31,10 @@ apiRouter.post("/login", async (req, res, next) => {
           }
         });
       } else {
-        res.send({ message: "Username or password do not match." });
+        res.send({ message: "Username or password invalid. Try again." });
       }
     } else {
-      res.send({ message: "Username or password do not match." });
+      res.send({ message: "Username or password invalid. Try again." });
     }
   } catch (err) {
     console.log("error in routes: ", err);
