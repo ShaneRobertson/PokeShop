@@ -12,12 +12,14 @@ const modalClose = document.getElementById("modal-close");
 const modalImage = document.getElementById("modal-image-container");
 const searchStr = document.getElementById("search");
 const openLoginModal = document.getElementById("login");
+const logoutButton = document.getElementById("logout");
 const closeLoginModal = document.getElementById("close-login-modal");
 const loginModalBackground = document.getElementById("login-modal-background");
 const signInButton = document.getElementById("signIn-modal-button");
 const signInUsername = document.getElementById("signIn-username");
 const signInPassword = document.getElementById("signIn-password");
 const errorMessageEl = document.getElementById("signIn-modal-errors");
+const displayUsername = document.getElementById("display-username");
 //change the html to use id instead of class
 
 const fetchPokemon = async (name) => {
@@ -222,6 +224,10 @@ signInButton.addEventListener("click", async (e) => {
 
   if (token) {
     localStorage.setItem("token", JSON.stringify(token));
+    displayUsername.innerText = `Hello ${username}!`;
+    openLoginModal.style.display = "none";
+    logoutButton.style.display = "block";
+    loginModalBackground.style.display = "none";
   }
   if (message) {
     errorMessageEl.innerText = message;
@@ -238,5 +244,12 @@ signInUsername.addEventListener("input", () => {
   if (errorMessageEl.innerText.length > 0) {
     errorMessageEl.innerText = "";
   }
+});
+
+logoutButton.addEventListener("click", () => {
+  localStorage.removeItem("token");
+  displayUsername.innerText = "Hello Guest!";
+  logoutButton.style.display = "none";
+  openLoginModal.style.display = "block";
 });
 loadInitialPokemon();
