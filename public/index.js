@@ -20,7 +20,6 @@ const signInUsername = document.getElementById("signIn-username");
 const signInPassword = document.getElementById("signIn-password");
 const errorMessageEl = document.getElementById("signIn-modal-errors");
 const displayUsername = document.getElementById("display-username");
-//change the html to use id instead of class
 
 const fetchPokemon = async (name) => {
   try {
@@ -199,7 +198,7 @@ closeLoginModal.addEventListener("click", () => {
 const loginUser = async (username, userPassword) => {
   let userObj = { username, userPassword };
   try {
-    const response = await fetch("/users/login", {
+    const response = await fetch("/api/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -209,7 +208,6 @@ const loginUser = async (username, userPassword) => {
     const result = await response.json();
     return result;
   } catch (err) {
-    console.log("asdfasdfas");
     console.log(err);
   }
 };
@@ -252,4 +250,5 @@ logoutButton.addEventListener("click", () => {
   logoutButton.style.display = "none";
   openLoginModal.style.display = "block";
 });
+
 loadInitialPokemon();

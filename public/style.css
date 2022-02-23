@@ -265,6 +265,10 @@ h3 span {
   display: flex;
 }
 
+#user-profile {
+  margin-right: 1rem;
+}
+
 #nav-bar span {
   margin-right: 1rem;
 }
