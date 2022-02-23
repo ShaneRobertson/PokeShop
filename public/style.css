@@ -256,12 +256,27 @@ h3 span {
   }
 }
 
-/* --Login-- */
+/* --Nav bar-- */
 
-#login {
+#nav-bar {
   position: absolute;
   top: 1rem;
   right: 1rem;
+  display: flex;
+}
+
+#user-profile {
+  margin-right: 1rem;
+}
+
+#nav-bar span {
+  margin-right: 1rem;
+}
+
+/* --Login-- */
+
+#logout {
+  display: none;
 }
 
 #login-modal-background {
