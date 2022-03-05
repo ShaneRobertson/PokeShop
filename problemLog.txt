@@ -11,3 +11,7 @@ Declared USERNAME in .env as my postgres username  variable, but my declaration 
 
 Was getting a "readable stream" and/or pending promise in the front end. 
     Fetch is asynchronus. Had to 'async' the function, await the fetch and the response.json().
+
+Verify Token function was passing every time. 
+    Had to switch the condition from bearerToken == null to bearerToken == 'null'
+            not sure why this worked-shouldn't type coersion/conversion work here???
