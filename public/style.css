@@ -6,6 +6,8 @@
 
 :root {
   --poke-container: rgb(167, 167, 167);
+  --poke-buttons: rgb(245, 245, 195);
+  --poke-text: rgb(39, 38, 38);
 }
 
 body {
@@ -159,7 +161,7 @@ span + img:hover {
 
 #modal-container {
   display: grid;
-  grid-template-columns: 45% 45% 10%;
+  grid-template-columns: 45% 45%;
   grid-template-rows: auto;
   align-items: center;
   justify-items: center;
@@ -171,9 +173,23 @@ span + img:hover {
 }
 
 #modal-close {
-  grid-column: 3 / 4;
+  /* grid-column: 3 / 4;
   align-self: end;
-  margin-bottom: 1rem;
+  margin-bottom: 1rem; */
+  grid-column: 2 / 3;
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  height: 1.5rem;
+  width: 1.5rem;
+  line-height: 1.3rem;
+  border-radius: 5px;
+  background-color: var(--poke-buttons);
+  color: var(--poke-text);
+}
+
+#modal-close:hover {
+  transform: scale(1.2);
 }
 
 #modal-image-container {

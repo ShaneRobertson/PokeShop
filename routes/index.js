@@ -14,23 +14,17 @@ apiRouter.get("/", (req, res, next) => {
 function verifyToken(req, res, next) {
   console.log("verify token function");
   //get Auth header
-  const bearerHeader = req.headers["authorization"];
-  // console.log("bearerheader", bearerHeader);
-  // check if bearer is undefined
-  if (typeof bearerHeader !== "undefined") {
-    const bearer = bearerHeader.split(" ");
-    //  console.log("bearer", bearer);
-    // get token on index 1 from array
-    const bearerToken = bearer[1];
-    // console.log("bearertoken", bearerToken);
-    // adding token to req object - set token
+  const bearerToken = req.headers["authorization"].split(" ")[1];
+  console.log("🔴", bearerToken);
+
+  if (bearerToken == "null") {
+    console.log("no token.....");
+    res.sendStatus(403);
+    next();
+  } else {
     req.token = bearerToken;
     console.log("token is:", bearerToken);
     next();
-    // send forbidden error status code
-  } else {
-    console.log("no token.....");
-    res.sendStatus(403);
   }
 }
 
@@ -49,11 +43,11 @@ apiRouter.post("/login", async (req, res, next) => {
             returnedUser[key] = theUser[key];
           }
         }
-        jwt.sign({ loggedInUser }, process.env.jwtSecret, (err, token) => {
+        jwt.sign({ returnedUser }, process.env.jwtSecret, (err, token) => {
           if (err) {
             res.send({ error: err, status: 403 });
           } else {
-            res.json({ loggedInUser, token });
+            res.json({ returnedUser, token });
           }
         });
       } else {
@@ -68,7 +62,12 @@ apiRouter.post("/login", async (req, res, next) => {
 });
 
 apiRouter.post("/users", verifyToken, async (req, res, next) => {
-  console.log("token verified: ", req.headers);
+  const {
+    returnedUser: { username },
+  } = jwt.verify(req.token, process.env.jwtSecret);
+  const response = await getUser(username);
+
+  console.log("response is: ", response);
 });
 
 module.exports = apiRouter;

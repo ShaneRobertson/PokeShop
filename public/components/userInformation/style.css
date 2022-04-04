@@ -1,0 +1,23 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  background-color: beige;
+}
+
+#user-details-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1rem 1rem;
+}
+
+#user-details-container {
+  display: flex;
+  flex-direction: column;
+  height: 80vh;
+  background-color: aquamarine;
+  margin: 0 1rem;
+}
