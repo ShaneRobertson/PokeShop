@@ -156,13 +156,8 @@ modalContainer.addEventListener("click", async (e) => {
 });
 
 display.addEventListener("click", async (e) => {
-  // console.log("the dataSet: ", e.target.dataset);
   try {
-    if (
-      e.target.getAttribute("data-pokemon")
-      // e.target.getAttribute("id") == "pokeContainer" ||
-      // e.target.getAttribute("alt")
-    ) {
+    if (e.target.getAttribute("data-pokemon")) {
       modalStats.innerHTML = "";
       modalImage.innerHTML = "";
       let pokeImage = "";
@@ -184,7 +179,6 @@ display.addEventListener("click", async (e) => {
           ? `<h3>${response.name}</h3><button id='modal-close' data-modal='close'>X</button><span>type ${response.types[0].type.name} / ${response.types[1].type.name}</span><br /><div id=modal-stats-description>${pokeDescription}</div>`
           : `<h3>${response.name}</h3><button id='modal-close' data-modal='close'>X</button><span>type ${response.types[0].type.name}</span><br /><div id=modal-stats-description>${pokeDescription}</div>`;
       modalStats.insertAdjacentHTML("afterbegin", pokeStats);
-
       modalImage.innerHTML = pokeImage;
     }
   } catch (error) {
