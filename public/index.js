@@ -57,6 +57,31 @@ const descriptionFilter = (arr) => {
   return pokeDescription;
 };
 
+const loginUser = async (username, userPassword) => {
+  let userObj = { username, userPassword };
+  try {
+    const response = await fetch("/api/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userObj),
+    });
+
+    const result = await response.json();
+    return result;
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+
+const setLocalStorage = (key, val) => {
+  localStorage.setItem(key, JSON.stringify(val));
+};
+
+const getLocalStorage = (key) => {
+  return JSON.parse(localStorage.getItem(key));
+};
 const loadInitialPokemon = async () => {
   try {
     let output = "";
@@ -194,43 +219,37 @@ closeLoginModal.addEventListener("click", () => {
   loginModalBackground.style.display = "none";
 });
 
-const loginUser = async (username, userPassword) => {
-  let userObj = { username, userPassword };
-  try {
-    const response = await fetch("/api/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userObj),
-    });
-    const result = await response.json();
-    return result;
-  } catch (err) {
-    console.log(err);
-  }
-};
-
 signInButton.addEventListener("click", async (e) => {
   e.preventDefault();
   const username = signInUsername.value;
   const password = signInPassword.value;
+  if (!username || !password) return;
+  try {
+    const { token, message, verifiedUser } = await loginUser(
+      username,
+      password
+    );
 
-  const { token, err, message } = await loginUser(username, password);
-  console.log("token: ", token, "err: ", err, "message: ", message);
+    setLocalStorage("token", token);
+    setLocalStorage("user", verifiedUser);
 
-  if (token) {
+    if (message) throw new Error(message);
+
     localStorage.setItem("token", JSON.stringify(token));
     displayUsername.innerText = `Hello ${username}!`;
     openLoginModal.style.display = "none";
     logoutButton.style.display = "block";
     loginModalBackground.style.display = "none";
-  }
-  if (message) {
-    errorMessageEl.innerText = message;
+
+    signInPassword.value = "";
+    signInUsername.value = "";
+  } catch (error) {
+    errorMessageEl.innerText = error.message;
     document
       .getElementById("signIn-modal-container")
       .appendChild(errorMessageEl);
+    signInPassword.value = "";
+    signInUsername.value = "";
   }
 
   signInPassword.value = "";
@@ -251,3 +270,6 @@ logoutButton.addEventListener("click", () => {
 });
 
 loadInitialPokemon();
+displayUsername.innerText = `Hello ${
+  getLocalStorage("user") ? getLocalStorage("user").username : "Guest"
+}!`;

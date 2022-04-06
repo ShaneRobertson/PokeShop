@@ -20,7 +20,7 @@
         <a href="./components/userInformation/index.html" id="user-profile"
           >User Profile</a
         >
-        <span id="display-username">Hello Guest!</span>
+        <span id="display-username"> </span>
         <button id="login">login</button>
         <button id="logout">logout</button>
       </div>
@@ -38,8 +38,18 @@
       <div id="login-modal-container">
         <div id="signIn-modal-container">
           <form id="signIn-modal">
-            <input type="text" id="signIn-username" placeholder="username" />
-            <input type="text" id="signIn-password" placeholder="password" />
+            <input
+              type="text"
+              id="signIn-username"
+              placeholder="username"
+              required
+            />
+            <input
+              type="text"
+              id="signIn-password"
+              placeholder="password"
+              required
+            />
             <button type="submit" id="signIn-modal-button">login</button>
           </form>
           <span id="signIn-modal-errors"></span>
@@ -48,7 +58,7 @@
         <div>
           <form id="register-modal">
             <input type="text" id="register-username" placeholder="username" />
-            <input type="text" id="register -password" placeholder="password" />
+            <input type="text" id="register-password" placeholder="password" />
             <button type="submit" id="register-modal-button">register</button>
           </form>
         </div>
