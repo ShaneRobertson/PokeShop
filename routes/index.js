@@ -13,6 +13,7 @@ apiRouter.get("/", (req, res, next) => {
 // move on to next() function
 function verifyToken(req, res, next) {
   console.log("verify token function");
+  console.log("request headers: ", req.headers);
   //get Auth header
   const bearerToken = req.headers["authorization"].split(" ")[1];
   console.log("🔴", bearerToken);
@@ -28,36 +29,26 @@ function verifyToken(req, res, next) {
   }
 }
 
-apiRouter.post("/login", async (req, res, next) => {
+apiRouter.post("/login", async (req, res) => {
   const { username, userPassword } = req.body;
-
   try {
-    const loggedInUser = await getUser(username);
-    if (loggedInUser.length > 0) {
-      const [{ password: dbPassword }] = loggedInUser;
-      if (dbPassword == userPassword) {
-        const [theUser] = loggedInUser;
-        let returnedUser = {};
-        for (const key in theUser) {
-          if (key != "password") {
-            returnedUser[key] = theUser[key];
-          }
-        }
-        jwt.sign({ returnedUser }, process.env.jwtSecret, (err, token) => {
-          if (err) {
-            res.send({ error: err, status: 403 });
-          } else {
-            res.json({ returnedUser, token });
-          }
-        });
-      } else {
-        res.send({ message: "Username or password invalid. Try again." });
+    const response = await getUser(username, userPassword);
+    if (!response)
+      res.send({ message: "Username or password invalid. Please try again." });
+    let verifiedUser = {};
+    //loop over the user and takeout the password
+    for (const key in response) {
+      if (key != "password") {
+        verifiedUser[key] = response[key];
       }
-    } else {
-      res.send({ message: "Username or password invalid. Try again." });
     }
-  } catch (err) {
-    console.log("error in routes: ", err);
+    jwt.sign({ verifiedUser }, process.env.jwtSecret, (err, token) => {
+      if (err) res.send({ error: err, status: 403 });
+
+      res.json({ verifiedUser, token });
+    });
+  } catch (error) {
+    console.log("Routes | 38: ", error.message);
   }
 });
 
