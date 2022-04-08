@@ -17,10 +17,30 @@
       </div>
     </header>
     <main>
-      <div id="user-details-container">
-        <p id="user-details-username"></p>
-        <p id="user-details-email"></p>
-      </div>
+      <!-- <div id="user-details-container"> -->
+      <form id="user-details-container">
+        <div>
+          <label for="username">Username</label>
+          <input
+            type="text"
+            name="username"
+            id="user-details-username"
+            placeholder="username"
+          />
+        </div>
+        <div>
+          <label for="email">Email</label>
+          <input
+            type="text"
+            name="email"
+            id="user-details-email"
+            placeholder="email address"
+          />
+        </div>
+        <button id="update">Update</button>
+      </form>
+
+      <!-- </div> -->
     </main>
   </body>
 </html>

@@ -16,6 +16,8 @@ body {
 
 #user-details-container {
   display: flex;
+  justify-content: space-evenly;
+  align-items: center;
   flex-direction: column;
   height: 80vh;
   background-color: aquamarine;

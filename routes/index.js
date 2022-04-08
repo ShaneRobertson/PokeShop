@@ -8,13 +8,10 @@ apiRouter.get("/", (req, res, next) => {
   console.log("💡💡💡💡💡💡");
 });
 
-// verify headers in token
-// middleware for token verification
-// move on to next() function
 function verifyToken(req, res, next) {
   console.log("verify token function");
   console.log("request headers: ", req.headers);
-  //get Auth header
+
   const bearerToken = req.headers["authorization"].split(" ")[1];
   console.log("🔴", bearerToken);
 
@@ -53,12 +50,8 @@ apiRouter.post("/login", async (req, res) => {
 });
 
 apiRouter.post("/users", verifyToken, async (req, res, next) => {
-  const {
-    returnedUser: { username },
-  } = jwt.verify(req.token, process.env.jwtSecret);
-  const response = await getUser(username);
-
-  console.log("response is: ", response);
+  const userInfo = jwt.verify(req.token, process.env.jwtSecret);
+  console.log("userInfo is: ", userInfo);
 });
 
 module.exports = apiRouter;

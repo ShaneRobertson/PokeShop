@@ -273,3 +273,5 @@ loadInitialPokemon();
 displayUsername.innerText = `Hello ${
   getLocalStorage("user") ? getLocalStorage("user").username : "Guest"
 }!`;
+
+module.exports = getLocalStorage;
