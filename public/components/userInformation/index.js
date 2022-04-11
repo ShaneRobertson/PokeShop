@@ -6,21 +6,12 @@ const getUserInfo = async () => {
   console.log("running getUserInfo");
   try {
     // if (localStorage.getItem("token"))
-    let token = JSON.parse(localStorage.getItem("token"));
-    if (!token)
+
+    if (!JSON.parse(localStorage.getItem("token")))
       throw new Error(
         "UNAUTHORIZED ACCESS ATTEMPT! AUTH CODE: A22KJBB444B07713K**"
       );
-    // const response = await fetch("/api/users", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     authorization: `Bearer ${token}`,
-    //   },
-    // });
 
-    // const userInformation = await response.json();
-    // console.log("userinfo: ", userInformation);
     const { username, email } = JSON.parse(localStorage.getItem("user"));
     emailElement.setAttribute("placeholder", email);
     usernameElement.setAttribute("placeholder", username);
@@ -29,11 +20,33 @@ const getUserInfo = async () => {
   }
 };
 
-updateInfoBtn.addEventListener("click", (e) => {
+updateInfoBtn.addEventListener("click", async (e) => {
   e.preventDefault();
-  let updatedUsername = usernameElement.value;
-  let updatedEmail = emailElement.value;
-  console.log("user", updatedUsername, "email", updatedEmail);
+  let username = usernameElement.value;
+  let email = emailElement.value;
+  let id = JSON.parse(localStorage.getItem("user")).id;
+
+  try {
+    if (!username && !email) return;
+
+    const response = await fetch("/api/users", {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username, email, id }),
+    });
+    const updatedUser = await response.json();
+    console.log(updatedUser);
+    localStorage.setItem("user", JSON.stringify(updatedUser));
+    usernameElement.value = "";
+    emailElement.value = "";
+    await getUserInfo();
+  } catch (error) {
+    console.log("Error is: ", error);
+  }
 });
 
 getUserInfo();
