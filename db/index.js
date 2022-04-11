@@ -1,5 +1,6 @@
 require("dotenv").config();
 
+const { set } = require("express/lib/application");
 const { Client } = require("pg");
 const { KEY, PASSWORD } = process.env;
 const DB_NAME = `${KEY}:${PASSWORD}@localhost:5432/pokedb`;
@@ -12,7 +13,7 @@ async function getUser(username, dbUserPassword) {
       rows: [row],
     } = await client.query(
       `
-      SELECT * FROM users WHERE username=$1
+      SELECT * FROM users WHERE username=$1;
     `,
       [username]
     );
@@ -23,7 +24,56 @@ async function getUser(username, dbUserPassword) {
     console.log(error.message);
   }
 }
+
+async function getUserById(id) {
+  try {
+    const rows = client.query(
+      `
+      SELECT * FROM users 
+      WHERE id=$1
+    `,
+      [id]
+    );
+    return rows;
+  } catch (error) {
+    console.log("error in db is: ", error.message);
+  }
+}
+
+async function updateUser(userObj, id) {
+  try {
+    // const retrievedUser = await getUserById(id);
+
+    // if (retrievedUser === null) {
+    //   throw new Error("User with that id does not exist.");
+    // }
+    const setString = Object.keys(userObj)
+      .map((key, index) => `"${key}"=$${index + 1}`)
+      .join(", ");
+    console.log("setString in DB is: ", setString);
+
+    const {
+      rows: [user],
+    } = await client.query(
+      `
+          UPDATE users
+          SET ${setString}
+          WHERE id = ${id}
+          RETURNING *;
+      `,
+      Object.values(userObj)
+    );
+
+    console.log("user in DB: ", user);
+    return user;
+  } catch (error) {
+    console.log("error in DB 68: ", error.message);
+    throw error;
+  }
+}
+
 module.exports = {
   getUser,
+  updateUser,
   client,
 };

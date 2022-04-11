@@ -12,8 +12,13 @@ const modalStats = document.getElementById("modal-stats-container");
 const modalClose = document.getElementById("modal-close");
 const modalImage = document.getElementById("modal-image-container");
 const searchStr = document.getElementById("search");
+
+//====================
+const logInOrOutContainer = document.getElementById("login-logout-container");
 const openLoginModal = document.getElementById("login");
 const logoutButton = document.getElementById("logout");
+//==================
+
 const closeLoginModal = document.getElementById("close-login-modal");
 const loginModalBackground = document.getElementById("login-modal-background");
 const signInButton = document.getElementById("signIn-modal-button");
@@ -31,6 +36,40 @@ const fetchPokemon = async (name) => {
     console.log(error);
   }
 };
+
+const setLocalStorage = (key, val) => {
+  localStorage.setItem(key, JSON.stringify(val));
+};
+
+const getLocalStorage = (key) => {
+  return JSON.parse(localStorage.getItem(key));
+};
+const renderNavBar = () => {
+  let user = getLocalStorage("user");
+  displayUsername.innerText = `Hello ${user ? user.username : "Guest"}!`;
+  if (user) {
+    logoutButton.style.display = "block";
+    openLoginModal.style.display = "none";
+  }
+  if (!user) {
+    logoutButton.style.display = "none";
+    openLoginModal.style.display = "block";
+  }
+};
+
+// logInOrOutContainer.addEventListener("click", (e) => {
+//   console.log(e.target.id);
+//   let isLoggedIn = e.target.id;
+//   if (isLoggedIn === "login") {
+//     loginModalBackground.style.display = "block";
+//   }
+//   // console.log("asdfasdfadfasd");
+//   // localStorage.clear();
+
+//   // displayUsername.innerText = "Hello Guest!";
+//   // logoutButton.style.display = "none";
+//   // openLoginModal.style.display = "block";
+// });
 
 const descriptionFilter = (arr) => {
   let englishOnlyDescription = arr.filter((desc) => {
@@ -75,17 +114,10 @@ const loginUser = async (username, userPassword) => {
   }
 };
 
-const setLocalStorage = (key, val) => {
-  localStorage.setItem(key, JSON.stringify(val));
-};
-
-const getLocalStorage = (key) => {
-  return JSON.parse(localStorage.getItem(key));
-};
 const loadInitialPokemon = async () => {
   try {
     let output = "";
-    const response = await fetch("https://pokeapi.co/api/v2/pokemon/?limit=10");
+    const response = await fetch("https://pokeapi.co/api/v2/pokemon/?limit=25");
     if (!response) throw new Error("Something went terribly wrong");
     const { results } = await response.json();
     results.forEach(async (result) => {
@@ -126,13 +158,13 @@ fetchButton.addEventListener("click", async () => {
 next.addEventListener("click", async () => {
   try {
     display.innerHTML = "";
-    pagination += 10;
+    pagination += 25;
     let output = "";
-    if (pagination >= 10) {
+    if (pagination >= 25) {
       previous.removeAttribute("disabled");
     }
     const response = await fetch(
-      `https://pokeapi.co/api/v2/pokemon/?limit=10&offset=${pagination}`
+      `https://pokeapi.co/api/v2/pokemon/?limit=25&offset=${pagination}`
     );
     const { results } = await response.json();
     results.forEach(async (result) => {
@@ -151,14 +183,14 @@ next.addEventListener("click", async () => {
 
 previous.addEventListener("click", async () => {
   try {
-    if (pagination < 11) {
+    if (pagination < 26) {
       previous.setAttribute("disabled", true);
     }
     display.innerHTML = "";
-    pagination -= 10;
+    pagination -= 25;
     let output = "";
     const response = await fetch(
-      `https://pokeapi.co/api/v2/pokemon/?limit=10&offset=${pagination}`
+      `https://pokeapi.co/api/v2/pokemon/?limit=25&offset=${pagination}`
     );
     const { results } = await response.json();
     results.forEach(async (result) => {
@@ -236,10 +268,14 @@ signInButton.addEventListener("click", async (e) => {
     if (message) throw new Error(message);
 
     localStorage.setItem("token", JSON.stringify(token));
+
     displayUsername.innerText = `Hello ${username}!`;
+    // loggedInOrOutBtn.innerHTML = `<button id='logout'>Logout<button>`;
     openLoginModal.style.display = "none";
-    logoutButton.style.display = "block";
+    // logoutButton.style.display = "block";
+
     loginModalBackground.style.display = "none";
+    logoutButton.style.display = "block";
 
     signInPassword.value = "";
     signInUsername.value = "";
@@ -251,9 +287,6 @@ signInButton.addEventListener("click", async (e) => {
     signInPassword.value = "";
     signInUsername.value = "";
   }
-
-  signInPassword.value = "";
-  signInUsername.value = "";
 });
 
 signInUsername.addEventListener("input", () => {
@@ -263,15 +296,11 @@ signInUsername.addEventListener("input", () => {
 });
 
 logoutButton.addEventListener("click", () => {
-  localStorage.removeItem("token");
+  localStorage.clear();
   displayUsername.innerText = "Hello Guest!";
   logoutButton.style.display = "none";
   openLoginModal.style.display = "block";
 });
 
 loadInitialPokemon();
-displayUsername.innerText = `Hello ${
-  getLocalStorage("user") ? getLocalStorage("user").username : "Guest"
-}!`;
-
-module.exports = getLocalStorage;
+renderNavBar();

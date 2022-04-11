@@ -1,7 +1,7 @@
 require("dotenv").config();
 const apiRouter = require("express").Router();
 const jwt = require("jsonwebtoken");
-const { getUser } = require("../db");
+const { getUser, updateUser } = require("../db");
 
 apiRouter.get("/", (req, res, next) => {
   res.send({ message: "hello" });
@@ -9,9 +9,6 @@ apiRouter.get("/", (req, res, next) => {
 });
 
 function verifyToken(req, res, next) {
-  console.log("verify token function");
-  console.log("request headers: ", req.headers);
-
   const bearerToken = req.headers["authorization"].split(" ")[1];
   console.log("🔴", bearerToken);
 
@@ -45,13 +42,38 @@ apiRouter.post("/login", async (req, res) => {
       res.json({ verifiedUser, token });
     });
   } catch (error) {
-    console.log("Routes | 38: ", error.message);
+    console.log("error is: ", error.message);
   }
 });
 
-apiRouter.post("/users", verifyToken, async (req, res, next) => {
-  const userInfo = jwt.verify(req.token, process.env.jwtSecret);
-  console.log("userInfo is: ", userInfo);
-});
+// apiRouter.post("/users", verifyToken, async (req, res, next) => {
+//   const userInfo = jwt.verify(req.token, process.env.jwtSecret);
+//   console.log("userInfo is: ", userInfo);
+// });
 
+apiRouter.patch("/users", verifyToken, async (req, res) => {
+  let { id } = req.body;
+  let userObj = {};
+
+  for (const key in req.body) {
+    if (key != "id" && req.body[key]) {
+      userObj[key] = req.body[key];
+    }
+  }
+  console.log("userObj is: ", userObj);
+  try {
+    const response = await updateUser(userObj, id);
+    console.log("response in routes: ", response);
+    let updatedUser = {};
+    //loop over the user and takeout the password
+    for (const key in response) {
+      if (key != "password") {
+        updatedUser[key] = response[key];
+      }
+    }
+    res.json(updatedUser);
+  } catch (error) {
+    console.log("error in routes 63: ", error.message);
+  }
+});
 module.exports = apiRouter;
