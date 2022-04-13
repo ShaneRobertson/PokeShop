@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PokeShop</title>
     <link rel="stylesheet" href="style.css" />
+    <link href="http://fonts.cdnfonts.com/css/pokemon-solid" rel="stylesheet" />
     <script defer src="./index.js"></script>
   </head>
   <body>
@@ -17,9 +18,12 @@
         <button type="submit" id="fetchBtn">fetch</button>
       </form>
       <div id="nav-bar">
-        <a href="./components/userInformation/index.html" id="user-profile"
-          >User Profile</a
-        >
+        <div id="avatar-container">
+          <a href="./components/userInformation/index.html" id="user-profile">
+            <img src="./images/avatar0.png" alt="avatar" id="avatar" />
+          </a>
+        </div>
+
         <span id="display-username">Hello Guest</span>
         <button id="login">login</button>
         <button id="logout">logout</button>

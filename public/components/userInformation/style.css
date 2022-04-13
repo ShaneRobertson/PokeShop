@@ -7,6 +7,12 @@ body {
   background-color: beige;
 }
 
+h1 {
+  font-family: "Pokemon Solid", sans-serif;
+  color: yellow;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
+}
 #user-details-header {
   display: flex;
   justify-content: space-between;
@@ -22,4 +28,50 @@ body {
   height: 80vh;
   background-color: aquamarine;
   margin: 0 1rem;
+}
+
+#avatar-container {
+  position: relative;
+  width: 4rem;
+  height: auto;
+}
+
+#avatar-current {
+  height: 4rem;
+  width: 4rem;
+  border-radius: 50%;
+  box-shadow: 3px 3px 3px black;
+}
+
+/* .image {
+  display: block;
+  width: 100%;
+  height: auto;
+} */
+
+#avatar-overlay {
+  position: absolute;
+  top: 0;
+  right: -100%;
+  width: 100%;
+  height: 0;
+}
+
+/* #avatar-container:hover #avatar-overlay {
+  bottom: 0;
+  height: 100%;
+} */
+
+#avatar-choices {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  overflow: visible;
+}
+
+#avatar-choice {
+  height: 2rem;
+  width: 2rem;
 }

@@ -21,7 +21,8 @@ async function buildTables() {
       username VARCHAR(50) UNIQUE NOT NULL,
       password VARCHAR(50) NOT NULL,
       email VARCHAR(100) UNIQUE,
-      isadmin BOOLEAN DEFAULT false
+      isadmin BOOLEAN DEFAULT false,
+      avatar VARCHAR(250) DEFAULT 'avatar0'
     );
     `);
     console.log("Finished building the tables!");

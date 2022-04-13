@@ -1,5 +1,8 @@
 const emailElement = document.getElementById("user-details-email");
 const usernameElement = document.getElementById("user-details-username");
+const avatarContainer = document.getElementById("avatar-container");
+const currentAvatar = document.getElementById("avatar-current");
+const avatarChoices = document.getElementById("avatar-choices");
 const updateInfoBtn = document.getElementById("update");
 
 const getUserInfo = async () => {
@@ -9,16 +12,43 @@ const getUserInfo = async () => {
 
     if (!JSON.parse(localStorage.getItem("token")))
       throw new Error(
-        "UNAUTHORIZED ACCESS ATTEMPT! AUTH CODE: A22KJBB444B07713K**"
+        "UNAUTHORIZED ACCESS ATTEMPT! VIOLATION CODE: A22KJBB444B07713K**"
       );
 
-    const { username, email } = JSON.parse(localStorage.getItem("user"));
+    const { username, email, avatar } = JSON.parse(
+      localStorage.getItem("user")
+    );
+    console.log(avatar);
     emailElement.setAttribute("placeholder", email);
     usernameElement.setAttribute("placeholder", username);
+    currentAvatar.setAttribute("src", `../../images/${avatar}.png`);
   } catch (error) {
     console.log(error);
   }
 };
+
+currentAvatar.addEventListener("click", async () => {
+  if (avatarChoices.hasChildNodes()) return;
+  const avatarOptions = [
+    "avatar0",
+    "avatar1",
+    "avatar2",
+    "avatar3",
+    "avatar4",
+    "avatar5",
+    "avatar6",
+    "avatar7",
+  ];
+  let output = "";
+  avatarOptions.forEach((option) => {
+    output += `<img src='../../images/${option}.png' alt='avatar' id='avatar-choice'/>`;
+  });
+  avatarChoices.insertAdjacentHTML("afterbegin", output);
+});
+
+avatarContainer.addEventListener("mouseleave", () => {
+  avatarChoices.innerHTML = "";
+});
 
 updateInfoBtn.addEventListener("click", async (e) => {
   e.preventDefault();
