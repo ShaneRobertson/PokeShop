@@ -42,15 +42,10 @@ async function getUserById(id) {
 
 async function updateUser(userObj, id) {
   try {
-    // const retrievedUser = await getUserById(id);
-
-    // if (retrievedUser === null) {
-    //   throw new Error("User with that id does not exist.");
-    // }
     const setString = Object.keys(userObj)
       .map((key, index) => `"${key}"=$${index + 1}`)
       .join(", ");
-    console.log("setString in DB is: ", setString);
+    // console.log("setString in DB is: ", setString);
 
     const {
       rows: [user],
@@ -64,7 +59,7 @@ async function updateUser(userObj, id) {
       Object.values(userObj)
     );
 
-    console.log("user in DB: ", user);
+    // console.log("user in DB: ", user);
     return user;
   } catch (error) {
     console.log("error in DB 68: ", error.message);

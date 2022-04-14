@@ -34,20 +34,18 @@ h1 {
   position: relative;
   width: 4rem;
   height: auto;
+  cursor: pointer;
 }
 
 #avatar-current {
   height: 4rem;
   width: 4rem;
   border-radius: 50%;
-  box-shadow: 3px 3px 3px black;
+  box-shadow: 3px 3px 5px black;
 }
-
-/* .image {
-  display: block;
-  width: 100%;
-  height: auto;
-} */
+#avatar-current:hover {
+  transform: scale(1.05);
+}
 
 #avatar-overlay {
   position: absolute;
@@ -57,11 +55,6 @@ h1 {
   height: 0;
 }
 
-/* #avatar-container:hover #avatar-overlay {
-  bottom: 0;
-  height: 100%;
-} */
-
 #avatar-choices {
   display: flex;
   flex-wrap: wrap;
@@ -69,9 +62,18 @@ h1 {
   justify-content: center;
   position: absolute;
   overflow: visible;
+  background-color: white;
+  border-radius: 5px;
+
+  box-shadow: 4px 4px 4px gray;
 }
 
 #avatar-choice {
   height: 2rem;
   width: 2rem;
+  margin: 4px;
+}
+
+#avatar-choice:hover {
+  transform: scale(1.1);
 }

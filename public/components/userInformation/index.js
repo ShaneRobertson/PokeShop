@@ -41,13 +41,40 @@ currentAvatar.addEventListener("click", async () => {
   ];
   let output = "";
   avatarOptions.forEach((option) => {
-    output += `<img src='../../images/${option}.png' alt='avatar' id='avatar-choice'/>`;
+    output += `<img src='../../images/${option}.png' alt='avatar' id='avatar-choice' data-choice=${option} />`;
   });
   avatarChoices.insertAdjacentHTML("afterbegin", output);
 });
 
 avatarContainer.addEventListener("mouseleave", () => {
   avatarChoices.innerHTML = "";
+});
+avatarContainer.addEventListener("click", async (e) => {
+  let selectedAvatar = e.target.dataset.choice;
+  let id = JSON.parse(localStorage.getItem("user")).id;
+  try {
+    if (selectedAvatar) {
+      const response = await fetch("/api/users/avatar", {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          avatar: selectedAvatar,
+          id,
+        }),
+      });
+
+      const data = await response.json();
+      localStorage.setItem("user", JSON.stringify(data));
+      await getUserInfo();
+      console.log("updated data line: ", data);
+    }
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 updateInfoBtn.addEventListener("click", async (e) => {

@@ -9,7 +9,12 @@
   --poke-buttons: rgb(245, 245, 195);
   --poke-text: rgb(39, 38, 38);
 }
+#header-container {
+  background-image: url("./images/pokebg4.jpg");
 
+  background-size: contain;
+  background-repeat: no-repeat;
+}
 body {
   background-color: beige;
 }

@@ -46,11 +46,7 @@ apiRouter.post("/login", async (req, res) => {
   }
 });
 
-// apiRouter.post("/users", verifyToken, async (req, res, next) => {
-//   const userInfo = jwt.verify(req.token, process.env.jwtSecret);
-//   console.log("userInfo is: ", userInfo);
-// });
-
+//-- Updates the users indicative data (email or username for now)
 apiRouter.patch("/users", verifyToken, async (req, res) => {
   let { id } = req.body;
   let userObj = {};
@@ -74,6 +70,18 @@ apiRouter.patch("/users", verifyToken, async (req, res) => {
     res.json(updatedUser);
   } catch (error) {
     console.log("error in routes 63: ", error.message);
+  }
+});
+
+//-- Updates the users avatar
+apiRouter.patch("/users/avatar", verifyToken, async (req, res) => {
+  try {
+    let { avatar, id } = req.body;
+    const updated = await updateUser({ avatar }, id);
+    console.log("updates: ", updated);
+    res.json(updated);
+  } catch (error) {
+    console.log("error is: ", error.message);
   }
 });
 module.exports = apiRouter;
