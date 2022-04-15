@@ -17,8 +17,11 @@ const searchStr = document.getElementById("search");
 const logInOrOutContainer = document.getElementById("login-logout-container");
 const openLoginModal = document.getElementById("login");
 const logoutButton = document.getElementById("logout");
-//==================
+//====================
+const avatarContainer = document.getElementById("avatar-container");
+const avatarImg = document.getElementById("avatar");
 
+//====================
 const closeLoginModal = document.getElementById("close-login-modal");
 const loginModalBackground = document.getElementById("login-modal-background");
 const signInButton = document.getElementById("signIn-modal-button");
@@ -50,26 +53,15 @@ const renderNavBar = () => {
   if (user) {
     logoutButton.style.display = "block";
     openLoginModal.style.display = "none";
+    avatarContainer.style.display = "block";
+    avatarImg.setAttribute("src", `./images/${user.avatar}.png`);
   }
   if (!user) {
     logoutButton.style.display = "none";
     openLoginModal.style.display = "block";
+    avatarContainer.style.display = "none";
   }
 };
-
-// logInOrOutContainer.addEventListener("click", (e) => {
-//   console.log(e.target.id);
-//   let isLoggedIn = e.target.id;
-//   if (isLoggedIn === "login") {
-//     loginModalBackground.style.display = "block";
-//   }
-//   // console.log("asdfasdfadfasd");
-//   // localStorage.clear();
-
-//   // displayUsername.innerText = "Hello Guest!";
-//   // logoutButton.style.display = "none";
-//   // openLoginModal.style.display = "block";
-// });
 
 const descriptionFilter = (arr) => {
   let englishOnlyDescription = arr.filter((desc) => {
@@ -268,15 +260,11 @@ signInButton.addEventListener("click", async (e) => {
     if (message) throw new Error(message);
 
     localStorage.setItem("token", JSON.stringify(token));
-
+    avatarContainer.style.display = "block";
     displayUsername.innerText = `Hello ${username}!`;
-    // loggedInOrOutBtn.innerHTML = `<button id='logout'>Logout<button>`;
     openLoginModal.style.display = "none";
-    // logoutButton.style.display = "block";
-
     loginModalBackground.style.display = "none";
     logoutButton.style.display = "block";
-
     signInPassword.value = "";
     signInUsername.value = "";
   } catch (error) {
@@ -300,6 +288,7 @@ logoutButton.addEventListener("click", () => {
   displayUsername.innerText = "Hello Guest!";
   logoutButton.style.display = "none";
   openLoginModal.style.display = "block";
+  avatarContainer.style.display = "none";
 });
 
 loadInitialPokemon();

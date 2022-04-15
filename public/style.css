@@ -6,7 +6,7 @@
 
 :root {
   --poke-container: rgb(167, 167, 167);
-  --poke-buttons: rgb(245, 245, 195);
+  --poke-buttons: rgb(159, 219, 243);
   --poke-text: rgb(39, 38, 38);
 }
 #header-container {
@@ -38,6 +38,18 @@ form {
 #paginate {
   width: 7rem;
   margin: 0 auto;
+}
+
+#paginate button {
+  background-color: var(--poke-buttons);
+  padding: 5px;
+  color: var(--poke-text);
+  border-radius: 25%;
+}
+#paginate button:hover {
+  background-color: var(--poke-text);
+  transform: scale(1.03);
+  color: var(--poke-buttons);
 }
 
 #outputArea {
@@ -287,6 +299,7 @@ h3 span {
 
 #user-profile {
   margin-right: 1rem;
+  text-decoration: none;
 }
 
 #nav-bar span {
@@ -294,14 +307,17 @@ h3 span {
 }
 
 #avatar-container {
-  height: 3rem;
-  width: 3rem;
+  display: flex;
+
+  /* height: 3rem;
+  width: 3rem; */
 }
 
 #avatar {
   border-radius: 50%;
   height: 2.5rem;
   width: 2.5rem;
+  box-shadow: 3px 3px 5px gray;
 }
 
 /* --Login-- */
