@@ -127,8 +127,11 @@ const loadInitialPokemon = async () => {
   }
 };
 
-fetchButton.addEventListener("click", async () => {
+fetchButton.addEventListener("click", async (e) => {
+  e.preventDefault();
   try {
+    console.log("searchStr is: ", searchStr.value);
+    if (!searchStr.value) return;
     const poke = await fetch(
       `https://pokeapi.co/api/v2/pokemon/${searchStr.value}`
     );
@@ -139,10 +142,12 @@ fetchButton.addEventListener("click", async () => {
     const data = await poke.json();
     let output = "";
     output += `<div id='pokeContainer' data-pokemon=${searchStr.value}><span id='name' data-pokemon=${searchStr.value}>${searchStr.value}</span> <img src=${data.sprites.versions["generation-v"]["black-white"].animated.front_default} alt='butterfree' data-pokemon=${searchStr.value}></img></div>`;
+    display.innerHTML = "";
     display.insertAdjacentHTML("afterbegin", output);
     searchStr.value = "";
   } catch (error) {
     display.insertAdjacentHTML("afterbegin", error.message);
+    searchStr.value = "";
     console.log("the error: ", error.message);
   }
 });
