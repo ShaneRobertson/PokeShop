@@ -8,6 +8,27 @@ const currentAvatar = document.getElementById("avatar-current");
 const avatarOverlay = document.getElementById("avatar-overlay");
 const updateInfoBtn = document.getElementById("update");
 
+const avatarOptions = [
+  "avatar0",
+  "avatar1",
+  "avatar2",
+  "avatar3",
+  "avatar4",
+  "avatar5",
+  "avatar6",
+  "avatar7",
+];
+const renderAvatarChoices = (avatarArr, currentAv) => {
+  let output = "";
+  avatarArr.forEach((option) => {
+    output +=
+      currentAv === option
+        ? `<div class='avatar-choice current'><img src='../../images/${option}.png' alt='avatar' id='avatar-choice-img' data-choice=${option} /></div>`
+        : `<div class="avatar-choice"><img src='../../images/${option}.png' alt='avatar' id='avatar-choice-img' data-choice=${option} /></div>`;
+  });
+  avatarChoicesContainer.insertAdjacentHTML("afterbegin", output);
+};
+
 const getUserInfo = async () => {
   console.log("running getUserInfo");
   try {
@@ -28,27 +49,6 @@ const getUserInfo = async () => {
   } catch (error) {
     console.log(error);
   }
-};
-
-const avatarOptions = [
-  "avatar0",
-  "avatar1",
-  "avatar2",
-  "avatar3",
-  "avatar4",
-  "avatar5",
-  "avatar6",
-  "avatar7",
-];
-const renderAvatarChoices = (avatarArr, currentAv) => {
-  let output = "";
-  avatarArr.forEach((option) => {
-    output +=
-      currentAv === option
-        ? `<div class='avatar-choice current'><img src='../../images/${option}.png' alt='avatar' id='avatar-choice-img' data-choice=${option} /></div>`
-        : `<div class="avatar-choice"><img src='../../images/${option}.png' alt='avatar' id='avatar-choice-img' data-choice=${option} /></div>`;
-  });
-  avatarChoicesContainer.insertAdjacentHTML("afterbegin", output);
 };
 
 currentAvatar.addEventListener("click", async () => {
