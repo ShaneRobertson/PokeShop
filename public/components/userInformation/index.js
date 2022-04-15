@@ -1,8 +1,11 @@
 const emailElement = document.getElementById("user-details-email");
 const usernameElement = document.getElementById("user-details-username");
 const avatarContainer = document.getElementById("avatar-container");
+const avatarChoicesContainer = document.getElementById(
+  "avatar-choices-container"
+);
 const currentAvatar = document.getElementById("avatar-current");
-const avatarChoices = document.getElementById("avatar-choices");
+const avatarOverlay = document.getElementById("avatar-overlay");
 const updateInfoBtn = document.getElementById("update");
 
 const getUserInfo = async () => {
@@ -27,27 +30,37 @@ const getUserInfo = async () => {
   }
 };
 
-currentAvatar.addEventListener("click", async () => {
-  if (avatarChoices.hasChildNodes()) return;
-  const avatarOptions = [
-    "avatar0",
-    "avatar1",
-    "avatar2",
-    "avatar3",
-    "avatar4",
-    "avatar5",
-    "avatar6",
-    "avatar7",
-  ];
+const avatarOptions = [
+  "avatar0",
+  "avatar1",
+  "avatar2",
+  "avatar3",
+  "avatar4",
+  "avatar5",
+  "avatar6",
+  "avatar7",
+];
+const renderAvatarChoices = (avatarArr, currentAv) => {
   let output = "";
-  avatarOptions.forEach((option) => {
-    output += `<img src='../../images/${option}.png' alt='avatar' id='avatar-choice' data-choice=${option} />`;
+  avatarArr.forEach((option) => {
+    output +=
+      currentAv === option
+        ? `<div class='avatar-choice current'><img src='../../images/${option}.png' alt='avatar' id='avatar-choice-img' data-choice=${option} /></div>`
+        : `<div class="avatar-choice"><img src='../../images/${option}.png' alt='avatar' id='avatar-choice-img' data-choice=${option} /></div>`;
   });
-  avatarChoices.insertAdjacentHTML("afterbegin", output);
+  avatarChoicesContainer.insertAdjacentHTML("afterbegin", output);
+};
+
+currentAvatar.addEventListener("click", async () => {
+  let { avatar } = JSON.parse(localStorage.getItem("user"));
+  console.log(avatarChoicesContainer.childNodes);
+  if (avatarChoicesContainer.hasChildNodes()) return;
+
+  renderAvatarChoices(avatarOptions, avatar);
 });
 
 avatarContainer.addEventListener("mouseleave", () => {
-  avatarChoices.innerHTML = "";
+  avatarChoicesContainer.innerHTML = "";
 });
 avatarContainer.addEventListener("click", async (e) => {
   let selectedAvatar = e.target.dataset.choice;
@@ -70,7 +83,9 @@ avatarContainer.addEventListener("click", async (e) => {
       const data = await response.json();
       localStorage.setItem("user", JSON.stringify(data));
       await getUserInfo();
-      console.log("updated data line: ", data);
+      let { avatar } = JSON.parse(localStorage.getItem("user"));
+      avatarChoicesContainer.innerHTML = "";
+      renderAvatarChoices(avatarOptions, avatar);
     }
   } catch (error) {
     console.log(error);

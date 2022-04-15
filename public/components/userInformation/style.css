@@ -30,50 +30,61 @@ h1 {
   margin: 0 1rem;
 }
 
+/* ==Avatar Styling== */
 #avatar-container {
   position: relative;
   width: 4rem;
   height: auto;
   cursor: pointer;
 }
-
 #avatar-current {
   height: 4rem;
-  width: 4rem;
   border-radius: 50%;
   box-shadow: 3px 3px 5px black;
-}
-#avatar-current:hover {
-  transform: scale(1.05);
 }
 
 #avatar-overlay {
   position: absolute;
   top: 0;
-  right: -100%;
-  width: 100%;
-  height: 0;
+  right: -76%;
+  width: 3rem;
 }
 
-#avatar-choices {
+#avatar-choices-container {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
-  position: absolute;
+  align-items: center;
   overflow: visible;
   background-color: white;
   border-radius: 5px;
-
   box-shadow: 4px 4px 4px gray;
 }
 
-#avatar-choice {
-  height: 2rem;
-  width: 2rem;
-  margin: 4px;
+.avatar-choice {
+  position: relative;
 }
 
-#avatar-choice:hover {
+#avatar-choice-img {
+  display: block;
+  height: 2rem;
+  margin: 0.3rem auto;
+}
+.current::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: -0.3rem;
+  height: 1rem;
+  width: 1rem;
+  background-image: url("../../images/check.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.avatar-choice:hover {
   transform: scale(1.1);
+}
+#avatar-current:hover {
+  transform: scale(1.05);
 }
