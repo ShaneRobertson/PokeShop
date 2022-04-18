@@ -67,8 +67,29 @@ async function updateUser(userObj, id) {
   }
 }
 
+async function registerUser(userObj) {
+  try {
+    console.log(userObj);
+
+    const {
+      rows: [user],
+    } = await client.query(
+      `
+      INSERT INTO users(username, password, email)
+      VALUES($1, $2, $3)
+      RETURNING *;
+    `,
+      Object.values(userObj)
+    );
+    console.log("rows are: ", user);
+    return user;
+  } catch (error) {
+    console.log("error in db: ", error.message);
+  }
+}
 module.exports = {
   getUser,
   updateUser,
+  registerUser,
   client,
 };
