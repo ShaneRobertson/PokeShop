@@ -1,5 +1,5 @@
 "use strict";
-
+//== Variables
 let pagination = 0;
 const previous = document.getElementById("previous");
 const next = document.getElementById("next");
@@ -12,24 +12,29 @@ const modalStats = document.getElementById("modal-stats-container");
 const modalClose = document.getElementById("modal-close");
 const modalImage = document.getElementById("modal-image-container");
 const searchStr = document.getElementById("search");
-
 //====================
 const logInOrOutContainer = document.getElementById("login-logout-container");
 const openLoginModal = document.getElementById("login");
 const logoutButton = document.getElementById("logout");
-//====================
-const avatarContainer = document.getElementById("avatar-container");
-const avatarImg = document.getElementById("avatar");
-
-//====================
 const closeLoginModal = document.getElementById("close-login-modal");
 const loginModalBackground = document.getElementById("login-modal-background");
 const signInButton = document.getElementById("signIn-modal-button");
 const signInUsername = document.getElementById("signIn-username");
 const signInPassword = document.getElementById("signIn-password");
+//====================
+const registerUsername = document.getElementById("register-username");
+const registerPassword = document.getElementById("register-password");
+const registerEmail = document.getElementById("register-email");
+const registerButton = document.getElementById("register-user");
+//====================
+const avatarContainer = document.getElementById("avatar-container");
+const avatarImg = document.getElementById("avatar");
+//====================
+const registerErrorEl = document.getElementById("register-modal-errors");
 const errorMessageEl = document.getElementById("signIn-modal-errors");
 const displayUsername = document.getElementById("display-username");
 
+//== Functions
 const fetchPokemon = async (name) => {
   try {
     const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
@@ -51,10 +56,18 @@ const renderNavBar = () => {
   let user = getLocalStorage("user");
   displayUsername.innerText = `Hello ${user ? user.username : "Guest"}!`;
   if (user) {
+    avatarContainer.style.display = "block";
     logoutButton.style.display = "block";
     openLoginModal.style.display = "none";
-    avatarContainer.style.display = "block";
+    loginModalBackground.style.display = "none";
     avatarImg.setAttribute("src", `./images/${user.avatar}.png`);
+
+    // avatarContainer.style.display = "block";
+    // logoutButton.style.display = "block";
+    // displayUsername.innerText = `Hello ${username}!`;
+
+    // openLoginModal.style.display = "none";
+    // loginModalBackground.style.display = "none";
   }
   if (!user) {
     logoutButton.style.display = "none";
@@ -127,6 +140,7 @@ const loadInitialPokemon = async () => {
   }
 };
 
+//== Event listeners
 fetchButton.addEventListener("click", async (e) => {
   e.preventDefault();
   try {
@@ -259,12 +273,10 @@ signInButton.addEventListener("click", async (e) => {
       password
     );
 
+    if (message) throw new Error(message);
     setLocalStorage("token", token);
     setLocalStorage("user", verifiedUser);
 
-    if (message) throw new Error(message);
-
-    localStorage.setItem("token", JSON.stringify(token));
     avatarContainer.style.display = "block";
     displayUsername.innerText = `Hello ${username}!`;
     openLoginModal.style.display = "none";
@@ -288,6 +300,39 @@ signInUsername.addEventListener("input", () => {
   }
 });
 
+registerButton.addEventListener("click", async (e) => {
+  e.preventDefault();
+  registerErrorEl.innerText = "";
+  let username = registerUsername.value;
+  let password = registerPassword.value;
+  let email = registerEmail.value;
+
+  try {
+    if (!username || !password || !email)
+      throw new Error("All fields required.");
+    console.log(email, password, username);
+    const response = await fetch("/api/users/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username, password, email }),
+    });
+    const { verifiedUser, token } = await response.json();
+
+    setLocalStorage("user", verifiedUser);
+    setLocalStorage("token", token);
+    renderNavBar();
+  } catch (error) {
+    registerErrorEl.innerText = error.message;
+    document
+      .getElementById("register-modal-container")
+      .appendChild(registerErrorEl);
+    registerUsername.value = "";
+    registerPassword.value = "";
+    registerEmail.value = "";
+  }
+});
 logoutButton.addEventListener("click", () => {
   localStorage.clear();
   displayUsername.innerText = "Hello Guest!";

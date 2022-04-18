@@ -1,7 +1,7 @@
 require("dotenv").config();
 const apiRouter = require("express").Router();
 const jwt = require("jsonwebtoken");
-const { getUser, updateUser } = require("../db");
+const { getUser, updateUser, registerUser } = require("../db");
 
 apiRouter.get("/", (req, res, next) => {
   res.send({ message: "hello" });
@@ -82,6 +82,37 @@ apiRouter.patch("/users/avatar", verifyToken, async (req, res) => {
     res.json(updated);
   } catch (error) {
     console.log("error is: ", error.message);
+  }
+});
+
+//-- Register a new user
+apiRouter.post("/users/register", async (req, res) => {
+  console.log("❤️", req.body);
+  let { username, password, email } = req.body;
+  let newUser = {
+    username,
+    password,
+    email,
+  };
+  try {
+    const response = await registerUser(newUser);
+    console.log("response from db: ", response);
+    let verifiedUser = {};
+    //loop over the user and takeout the password
+    for (const key in response) {
+      if (key != "password") {
+        verifiedUser[key] = response[key];
+      }
+    }
+    console.log(typeof verifiedUser);
+    jwt.sign({ verifiedUser }, process.env.jwtSecret, (err, token) => {
+      if (err) res.send({ error: err, status: 403 });
+
+      res.json({ verifiedUser, token });
+    });
+  } catch (error) {
+    console.log("errror in the routes: ", error.message);
+    console.log(error.message);
   }
 });
 module.exports = apiRouter;
