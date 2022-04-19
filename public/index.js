@@ -4,6 +4,7 @@ let pagination = 0;
 const previous = document.getElementById("previous");
 const next = document.getElementById("next");
 const display = document.getElementById("outputArea");
+const searchStr = document.getElementById("search");
 const fetchButton = document.getElementById("fetchBtn");
 const pokeContainer = document.getElementById("pokeContainer");
 const modalBackground = document.getElementById("modal-background");
@@ -11,7 +12,6 @@ const modalContainer = document.getElementById("modal-container");
 const modalStats = document.getElementById("modal-stats-container");
 const modalClose = document.getElementById("modal-close");
 const modalImage = document.getElementById("modal-image-container");
-const searchStr = document.getElementById("search");
 //====================
 const logInOrOutContainer = document.getElementById("login-logout-container");
 const openLoginModal = document.getElementById("login");
@@ -76,11 +76,11 @@ const renderNavBar = () => {
   }
 };
 
-const descriptionFilter = (arr) => {
+const createDescription = (arr) => {
   let englishOnlyDescription = arr.filter((desc) => {
     return desc.language.name == "en";
   });
-  //console.log(englishOnlyDescription);
+
   let pokeDescription = "";
   let counter = 0;
   englishOnlyDescription.forEach((description) => {
@@ -93,13 +93,25 @@ const descriptionFilter = (arr) => {
       !lowerCaseDescription.includes("\f")
     ) {
       pokeDescription += description.flavor_text;
-      // uniqueDescriptions.push(description);
       counter++;
     }
   });
 
   return pokeDescription;
 };
+
+const listPokeTypes = (arr) => {
+  let typeStr = "";
+  arr.forEach((obj, index) => {
+    arr.length - 1 === index
+      ? (typeStr += `${obj.type.name}`)
+      : (typeStr += `${obj.type.name} / `);
+  });
+  return typeStr;
+};
+
+const capitalizeName = (name) =>
+  name.slice(0, 1).toUpperCase().concat(name.slice(1).toLocaleLowerCase());
 
 const loginUser = async (username, userPassword) => {
   let userObj = { username, userPassword };
@@ -128,9 +140,13 @@ const loadInitialPokemon = async () => {
     results.forEach(async (result) => {
       let res = await fetch(`https://pokeapi.co/api/v2/pokemon/${result.name}`);
       const poke = await res.json();
-      //  console.log("pokemon: ", poke);
-      output += `<div id='pokeContainer' data-pokemon=${result.name}> <span data-pokemon=${result.name}>${result.name}</span>
-      <img src=${poke.sprites.versions["generation-v"]["black-white"].animated.front_default} alt=${poke.name} data-pokemon=${result.name}></img>
+      output += `<div id='pokeContainer' data-pokemon=${
+        result.name
+      }> <span data-pokemon=${result.name}>${capitalizeName(result.name)}</span>
+      <img src=${
+        poke.sprites.versions["generation-v"]["black-white"].animated
+          .front_default
+      } alt=${poke.name} data-pokemon=${result.name}></img>
   </div>`;
       display.insertAdjacentHTML("afterbegin", output);
       output = "";
@@ -233,21 +249,23 @@ display.addEventListener("click", async (e) => {
       modalBackground.style.display = "block";
       const pokemon = e.target.dataset.pokemon;
       const response = await fetchPokemon(pokemon);
+      console.log(response);
       const { types, id } = response;
+      console.log(types);
       const data = await fetch(
         `https://pokeapi.co/api/v2/pokemon-species/${id}/`
       );
       const { flavor_text_entries } = await data.json();
-
-      let pokeDescription = descriptionFilter(flavor_text_entries);
-      // console.log("✈️", pokeDescription);
+      let pokeDescription = createDescription(flavor_text_entries);
       pokeImage += `<img src=${response.sprites.other["dream_world"]["front_default"]} alt=${pokemon} id='modal-poke-image' />`;
-      pokeStats +=
-        types.length > 1
-          ? `<h3>${response.name}</h3><button id='modal-close' data-modal='close'>X</button><span>type ${response.types[0].type.name} / ${response.types[1].type.name}</span><br /><div id=modal-stats-description>${pokeDescription}</div>`
-          : `<h3>${response.name}</h3><button id='modal-close' data-modal='close'>X</button><span>type ${response.types[0].type.name}</span><br /><div id=modal-stats-description>${pokeDescription}</div>`;
+      pokeStats += `<h3>${capitalizeName(
+        response.name
+      )}</h3><div class='modal-actions-container'><img src='./images/backpack.png' alt='backpack' id='backpack-img' /><button id='modal-close' data-modal='close'>X</button></div><span>type ${listPokeTypes(
+        types
+      )}</span><br /><div id=modal-stats-description>${pokeDescription}</div>`;
+
       modalStats.insertAdjacentHTML("afterbegin", pokeStats);
-      modalImage.innerHTML = pokeImage;
+      modalImage.insertAdjacentHTML("afterbegin", pokeImage);
     }
   } catch (error) {
     console.error(error);

@@ -16,7 +16,12 @@
   background-repeat: no-repeat;
 }
 body {
-  background-color: beige;
+  background: linear-gradient(
+    153deg,
+    rgba(245, 245, 220, 1) 50%,
+    rgb(214, 29, 29) 100%
+  );
+  background-repeat: no-repeat;
 }
 
 h1 {
@@ -57,10 +62,16 @@ form {
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  width: 90%;
+  width: 75%;
   height: 80%;
   margin: 1rem auto;
-  background-color: rgb(179, 227, 241);
+
+  box-shadow: 0px 0px 5px 5px gray;
+  border-radius: 10px;
+  border: 1px inset rgb(151, 150, 150);
+  background-image: url(./images/pokebg7.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 #pokeContainer {
@@ -77,6 +88,9 @@ form {
   border: 3px inset rgb(119, 119, 119);
   border-bottom-left-radius: -15px;
   box-shadow: 3px 3px 3px black;
+  background-image: url(./images/pokebg3.png);
+  background-repeat: none;
+  background-size: cover;
 }
 #name {
   align-self: flex-start;
@@ -193,16 +207,30 @@ span + img:hover {
 }
 
 #modal-close {
-  grid-column: 2 / 3;
-  position: absolute;
-  top: 2rem;
-  right: 2rem;
   height: 1.5rem;
   width: 1.5rem;
   line-height: 1.3rem;
   border-radius: 5px;
   background-color: var(--poke-buttons);
   color: var(--poke-text);
+}
+
+.modal-actions-container {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 3.5rem;
+}
+
+#backpack-img {
+  height: 1.5rem;
+  width: 1.5rem;
+}
+#backpack-img:hover {
+  transform: scale(1.05);
 }
 
 #modal-close:hover {
@@ -222,6 +250,7 @@ span + img:hover {
 
 #modal-stats-container {
   grid-column: 2 / 3;
+  position: relative;
   color: white;
   background-color: tomato;
   height: 90%;
