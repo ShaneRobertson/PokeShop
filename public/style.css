@@ -11,7 +11,6 @@
 }
 #header-container {
   background-image: url("./images/pokebg4.jpg");
-
   background-size: contain;
   background-repeat: no-repeat;
 }
@@ -21,7 +20,8 @@ body {
     rgba(245, 245, 220, 1) 50%,
     rgb(214, 29, 29) 100%
   );
-  background-repeat: no-repeat;
+  background: no-repeat center center cover;
+  min-height: 100vh;
 }
 
 h1 {
@@ -40,6 +40,9 @@ form {
   margin: 1rem auto;
 }
 
+a {
+  text-decoration: none;
+}
 #paginate {
   width: 7rem;
   margin: 0 auto;
@@ -63,15 +66,16 @@ form {
   align-items: center;
   flex-wrap: wrap;
   width: 75%;
-  height: 80%;
-  margin: 1rem auto;
+  min-height: 80vh;
 
+  margin: 1rem auto;
   box-shadow: 0px 0px 5px 5px gray;
   border-radius: 10px;
   border: 1px inset rgb(151, 150, 150);
   background-image: url(./images/pokebg7.jpg);
   background-repeat: no-repeat;
   background-size: cover;
+  background-position: center;
 }
 
 #pokeContainer {
@@ -186,7 +190,7 @@ span + img:hover {
   position: fixed;
   top: 0;
   left: 0;
-  /* overflow: auto; */
+
   width: 100vw;
   height: 100vh;
   z-index: 1;
@@ -347,6 +351,10 @@ h3 span {
   height: 2.5rem;
   width: 2.5rem;
   box-shadow: 3px 3px 5px gray;
+}
+#bp-nav {
+  height: 2rem;
+  width: 2rem;
 }
 
 /* --Login-- */

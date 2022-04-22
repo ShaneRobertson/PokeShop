@@ -12,6 +12,7 @@ const modalContainer = document.getElementById("modal-container");
 const modalStats = document.getElementById("modal-stats-container");
 const modalClose = document.getElementById("modal-close");
 const modalImage = document.getElementById("modal-image-container");
+// const backPackIcon = document.getElementById("backpack-img");
 //====================
 const logInOrOutContainer = document.getElementById("login-logout-container");
 const openLoginModal = document.getElementById("login");
@@ -21,6 +22,7 @@ const loginModalBackground = document.getElementById("login-modal-background");
 const signInButton = document.getElementById("signIn-modal-button");
 const signInUsername = document.getElementById("signIn-username");
 const signInPassword = document.getElementById("signIn-password");
+
 //====================
 const registerUsername = document.getElementById("register-username");
 const registerPassword = document.getElementById("register-password");
@@ -54,20 +56,15 @@ const getLocalStorage = (key) => {
 };
 const renderNavBar = () => {
   let user = getLocalStorage("user");
-  displayUsername.innerText = `Hello ${user ? user.username : "Guest"}!`;
+  displayUsername.innerText = `Hello ${
+    user ? capitalizeName(user.username) : "Guest"
+  }!`;
   if (user) {
     avatarContainer.style.display = "block";
     logoutButton.style.display = "block";
     openLoginModal.style.display = "none";
     loginModalBackground.style.display = "none";
     avatarImg.setAttribute("src", `./images/${user.avatar}.png`);
-
-    // avatarContainer.style.display = "block";
-    // logoutButton.style.display = "block";
-    // displayUsername.innerText = `Hello ${username}!`;
-
-    // openLoginModal.style.display = "none";
-    // loginModalBackground.style.display = "none";
   }
   if (!user) {
     logoutButton.style.display = "none";
@@ -198,8 +195,13 @@ next.addEventListener("click", async () => {
       let res = await fetch(`https://pokeapi.co/api/v2/pokemon/${result.name}`);
       const poke = await res.json();
       output += `<div id='pokeContainer' data-pokemon=${result.name}> 
-      <span id='name' data-pokemon=${result.name}>${result.name}</span>
-          <img src=${poke.sprites.versions["generation-v"]["black-white"].animated.front_default} alt=${poke.name} data-pokemon=${result.name}></img>
+      <span id='name' data-pokemon=${result.name}>${capitalizeName(
+        result.name
+      )}</span>
+          <img src=${
+            poke.sprites.versions["generation-v"]["black-white"].animated
+              .front_default
+          } alt=${poke.name} data-pokemon=${result.name}></img>
       </div>`;
       display.innerHTML = output;
     });
@@ -260,7 +262,7 @@ display.addEventListener("click", async (e) => {
       pokeImage += `<img src=${response.sprites.other["dream_world"]["front_default"]} alt=${pokemon} id='modal-poke-image' />`;
       pokeStats += `<h3>${capitalizeName(
         response.name
-      )}</h3><div class='modal-actions-container'><img src='./images/backpack.png' alt='backpack' id='backpack-img' /><button id='modal-close' data-modal='close'>X</button></div><span>type ${listPokeTypes(
+      )}</h3><div class='modal-actions-container'><img src='./images/backpack.png' alt='backpack' data-modal-bp='backpack' id='backpack-img' /><button id='modal-close' data-modal='close'>X</button></div><span>type ${listPokeTypes(
         types
       )}</span><br /><div id=modal-stats-description>${pokeDescription}</div>`;
 
@@ -296,7 +298,7 @@ signInButton.addEventListener("click", async (e) => {
     setLocalStorage("user", verifiedUser);
 
     avatarContainer.style.display = "block";
-    displayUsername.innerText = `Hello ${username}!`;
+    displayUsername.innerText = `Hello ${capitalizeName(username)}!`;
     openLoginModal.style.display = "none";
     loginModalBackground.style.display = "none";
     logoutButton.style.display = "block";

@@ -1,0 +1,44 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: beige;
+  min-height: 100vh;
+}
+
+h1 {
+  font-family: "Pokemon Solid", sans-serif;
+  color: yellow;
+  letter-spacing: 0.2rem;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
+  text-align: center;
+  margin: 1rem auto;
+}
+
+#bp-nav-container {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 10rem;
+}
+
+#avatar {
+  border-radius: 50%;
+  height: 2.5rem;
+  width: 2.5rem;
+  box-shadow: 3px 3px 5px gray;
+}
+
+.bp-main-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
