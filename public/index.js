@@ -237,13 +237,43 @@ previous.addEventListener("click", async () => {
 });
 
 modalContainer.addEventListener("click", async (e) => {
-  if (e.target.getAttribute("data-modal"))
+  if (e.target.dataset.modal === "close")
     modalBackground.style.display = "none";
+
+  if (e.target.dataset.modal == "backpack") {
+    try {
+      let pokepic = document
+        .getElementById("modal-poke-image")
+        .getAttribute("src");
+      let pokename = capitalizeName(
+        document.getElementById("modal-poke-image").getAttribute("alt")
+      );
+      console.log("pokename is: ", pokename, "img url is: ", pokepic);
+      const response = await fetch("/api/pokemon", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+          authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({
+          pokename,
+          pokepic,
+          ownerid: JSON.parse(localStorage.getItem("user")).id,
+        }),
+      });
+      console.log("initial response: ", responses);
+      const pokemon = await response.json();
+
+      console.log("pokemon is: ", pokemon);
+    } catch (error) {
+      console.log("error: ", error.message);
+    }
+  }
 });
 
 display.addEventListener("click", async (e) => {
   try {
-    if (e.target.getAttribute("data-pokemon")) {
+    if (e.target.dataset.pokemon) {
       modalStats.innerHTML = "";
       modalImage.innerHTML = "";
       let pokeImage = "";
@@ -262,7 +292,7 @@ display.addEventListener("click", async (e) => {
       pokeImage += `<img src=${response.sprites.other["dream_world"]["front_default"]} alt=${pokemon} id='modal-poke-image' />`;
       pokeStats += `<h3>${capitalizeName(
         response.name
-      )}</h3><div class='modal-actions-container'><img src='./images/backpack.png' alt='backpack' data-modal-bp='backpack' id='backpack-img' /><button id='modal-close' data-modal='close'>X</button></div><span>type ${listPokeTypes(
+      )}</h3><div class='modal-actions-container'><img src='./images/backpack.png' alt='backpack' data-modal='backpack' id='backpack-img' /><button id='modal-close' data-modal='close'>X</button></div><span>type ${listPokeTypes(
         types
       )}</span><br /><div id=modal-stats-description>${pokeDescription}</div>`;
 

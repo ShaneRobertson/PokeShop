@@ -232,13 +232,15 @@ span + img:hover {
 #backpack-img {
   height: 1.5rem;
   width: 1.5rem;
+  cursor: pointer;
 }
 #backpack-img:hover {
   transform: scale(1.05);
 }
 
 #modal-close:hover {
-  transform: scale(1.2);
+  transform: scale(1.05);
+  cursor: pointer;
 }
 
 #modal-image-container {

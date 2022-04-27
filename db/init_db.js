@@ -9,12 +9,13 @@ async function buildTables() {
     //Drop the tables
     console.log("Dropping Tables...");
     await client.query(`
+        DROP TABLE IF EXISTS pokemon;
         DROP TABLE IF EXISTS users;
         `);
     console.log("Finished dropping all the tables.");
 
     //Build the tables
-    console.log("Building tables..");
+    console.log("Building user table..");
     await client.query(`
     CREATE TABLE users(
       id SERIAL PRIMARY KEY,
@@ -25,6 +26,15 @@ async function buildTables() {
       avatar VARCHAR(250) DEFAULT 'avatar0'
     );
     `);
+    console.log("Building pokemon table..");
+    await client.query(`
+      CREATE TABLE pokemon(
+        id SERIAL PRIMARY KEY,
+        pokename VARCHAR(50),
+        pokepic VARCHAR(250),
+        ownerid INTEGER REFERENCES users(id)
+      );
+      `);
     console.log("Finished building the tables!");
   } catch (err) {
     throw err;
