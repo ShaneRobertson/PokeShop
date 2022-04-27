@@ -1,7 +1,7 @@
 require("dotenv").config();
 const apiRouter = require("express").Router();
 const jwt = require("jsonwebtoken");
-const { getUser, updateUser, registerUser } = require("../db");
+const { getUser, updateUser, registerUser, addToBackpack } = require("../db");
 
 apiRouter.get("/", (req, res, next) => {
   res.send({ message: "hello" });
@@ -113,6 +113,18 @@ apiRouter.post("/users/register", async (req, res) => {
   } catch (error) {
     console.log("errror in the routes: ", error.message);
     console.log(error.message);
+  }
+});
+
+//-- Add pokemon to backpack
+apiRouter.post("/pokemon", verifyToken, async (req, res) => {
+  console.log("req.body is: ", req.body);
+  try {
+    const pokemon = await addToBackpack(req.body);
+    console.log("pokemon in routes: ", pokemon);
+    res.send(pokemon);
+  } catch (error) {
+    console.log("error in routes: ", error.message);
   }
 });
 module.exports = apiRouter;

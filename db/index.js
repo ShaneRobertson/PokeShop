@@ -87,9 +87,32 @@ async function registerUser(userObj) {
     console.log("error in db: ", error.message);
   }
 }
+
+async function addToBackpack(pokeObj) {
+  const columns = Object.keys(pokeObj).join(", ");
+  const vals = Object.keys(pokeObj)
+    .map((_, index) => `$${index + 1}`)
+    .join(", ");
+
+  const {
+    rows: [row],
+  } = await client.query(
+    `
+    INSERT INTO pokemon(${columns})
+    VALUES(${vals})
+    RETURNING *;
+  `,
+    Object.values(pokeObj)
+  );
+
+  console.log("the row is: ", row);
+  return row;
+}
+
 module.exports = {
   getUser,
   updateUser,
   registerUser,
+  addToBackpack,
   client,
 };
