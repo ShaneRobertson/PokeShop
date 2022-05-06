@@ -37,8 +37,64 @@ h1 {
 }
 
 .bp-main-container {
+  /* position: relative; */
+  width: 80vw;
+  height: 80vh;
+  margin: 1rem auto;
+}
+
+#bp-bg {
+  /* position: relative; */
+  display: block;
+  height: 100%;
+  width: 85%;
+  /* object-fit: scale-down; */
+  margin: 0 auto;
+}
+
+.bp-overlay {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-wrap: wrap;
+  justify-content: flex-start;
   align-items: center;
+  position: absolute;
+  top: 65%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 60%;
+  width: 30%;
+  background-color: white;
+  opacity: 0.98;
+  border: 2px inset grey;
+  border-radius: 1rem;
+  box-shadow: 5px 5px 5px gray;
+  overflow: auto;
+}
+
+.bp-pokemon-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.1rem;
+
+  margin: 1rem;
+  height: 2rem;
+  width: 40%;
+  background-color: rgb(177, 175, 175);
+  border-radius: 8px;
+  border: 2px inset rgb(86, 86, 86);
+}
+
+.bp-img-container {
+  height: 100%;
+  margin-left: 0;
+}
+
+.bp-pokemon-container img {
+  height: 100%;
+  margin-left: 0.5rem;
+}
+.bp-pokemon-container span {
+  line-height: 100%;
+  margin-left: 0.5rem;
 }
