@@ -15,3 +15,5 @@ Was getting a "readable stream" and/or pending promise in the front end.
 Verify Token function was passing every time. 
     Had to switch the condition from bearerToken == null to bearerToken == 'null'
             not sure why this worked-shouldn't type coersion/conversion work here???
+
+pagination stops working at 625

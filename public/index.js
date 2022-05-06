@@ -98,13 +98,19 @@ const createDescription = (arr) => {
 };
 
 const listPokeTypes = (arr) => {
-  let typeStr = "";
-  arr.forEach((obj, index) => {
-    arr.length - 1 === index
-      ? (typeStr += `${obj.type.name}`)
-      : (typeStr += `${obj.type.name} / `);
+  // let typeStr = "";
+  // arr.forEach((obj, index) => {
+  //   arr.length - 1 === index
+  //     ? (typeStr += `${obj.type.name}`)
+  //     : (typeStr += `${obj.type.name} / `);
+  // });
+  // return typeStr;
+  let html = "";
+  arr.forEach((item) => {
+    html += `<img src='./images/${item.type.name}.png' alt=${item.type.name} class=icon />`;
   });
-  return typeStr;
+  console.log("html for icons: ", html);
+  return html;
 };
 
 const capitalizeName = (name) =>
@@ -248,8 +254,24 @@ modalContainer.addEventListener("click", async (e) => {
       let pokename = capitalizeName(
         document.getElementById("modal-poke-image").getAttribute("alt")
       );
-      console.log("pokename is: ", pokename, "img url is: ", pokepic);
-      const response = await fetch("/api/pokemon", {
+      let typeList = document.querySelectorAll(".icon");
+      let poketype = "";
+      for (let i = 0; i < typeList.length; i++) {
+        if (typeList.length - 1 == i) {
+          poketype += `${typeList[i].getAttribute("alt")}`;
+        } else {
+          poketype += `${typeList[i].getAttribute("alt")} `;
+        }
+      }
+      console.log(
+        "pokename is: ",
+        pokename,
+        "img url is: ",
+        pokepic,
+        "poke type is: ",
+        poketype
+      );
+      const response = await fetch("/api/backpack", {
         method: "POST",
         headers: {
           "Content-type": "application/json",
@@ -258,13 +280,14 @@ modalContainer.addEventListener("click", async (e) => {
         body: JSON.stringify({
           pokename,
           pokepic,
+          poketype,
           ownerid: JSON.parse(localStorage.getItem("user")).id,
         }),
       });
-      console.log("initial response: ", responses);
+      console.log("initial response: ", response);
       const pokemon = await response.json();
-
-      console.log("pokemon is: ", pokemon);
+      console.log(pokemon);
+      document.getElementById("backpack-img").setAttribute("disabled", true);
     } catch (error) {
       console.log("error: ", error.message);
     }
@@ -292,9 +315,9 @@ display.addEventListener("click", async (e) => {
       pokeImage += `<img src=${response.sprites.other["dream_world"]["front_default"]} alt=${pokemon} id='modal-poke-image' />`;
       pokeStats += `<h3>${capitalizeName(
         response.name
-      )}</h3><div class='modal-actions-container'><img src='./images/backpack.png' alt='backpack' data-modal='backpack' id='backpack-img' /><button id='modal-close' data-modal='close'>X</button></div><span>type ${listPokeTypes(
+      )}</h3><div class='modal-actions-container'><img src='./images/backpack.png' alt='backpack' data-modal='backpack' id='backpack-img' /><button id='modal-close' data-modal='close'>X</button></div><div class=modal-type-container> ${listPokeTypes(
         types
-      )}</span><br /><div id=modal-stats-description>${pokeDescription}</div>`;
+      )}</div><br /><div id=modal-stats-description>${pokeDescription}</div>`;
 
       modalStats.insertAdjacentHTML("afterbegin", pokeStats);
       modalImage.insertAdjacentHTML("afterbegin", pokeImage);

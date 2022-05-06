@@ -109,10 +109,27 @@ async function addToBackpack(pokeObj) {
   return row;
 }
 
+const getBackpackPokemon = async (id) => {
+  try {
+    const { rows } = await client.query(
+      `
+      SELECT * FROM pokemon
+      WHERE ownerid=$1
+    `,
+      [id]
+    );
+    console.log("rows in DB: ", rows);
+    return rows;
+  } catch (err) {
+    console.log("getbackpack pokemon in the DB: ", err.message);
+  }
+};
+
 module.exports = {
   getUser,
   updateUser,
   registerUser,
   addToBackpack,
+  getBackpackPokemon,
   client,
 };

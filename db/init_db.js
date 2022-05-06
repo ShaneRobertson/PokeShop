@@ -32,6 +32,7 @@ async function buildTables() {
         id SERIAL PRIMARY KEY,
         pokename VARCHAR(50),
         pokepic VARCHAR(250),
+        poketype VARCHAR(50),
         ownerid INTEGER REFERENCES users(id)
       );
       `);
